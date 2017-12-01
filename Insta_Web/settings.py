@@ -79,7 +79,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'InstagramDatabase',
         'USER': 'root',
-        'PASSWORD':'',
+        'PASSWORD':'braeden123!!',
         'HOST': '127.0.0.1',
     },
 

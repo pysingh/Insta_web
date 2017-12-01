@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '%4b+4@j&o=ekv(&!@tx3=a*wxb^7ak$456l4kfk6mj#e$ypg42'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['54.242.193.234','127.0.0.1']
 
@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Insta_Web'
+    'Insta_Web',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -80,7 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'InstagramDatabase',
         'USER': 'root',
-        'PASSWORD':'braeden123!!',
+        'PASSWORD':'nishaf123',
         'HOST': '127.0.0.1',
     },
 

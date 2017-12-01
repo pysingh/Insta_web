@@ -25,7 +25,7 @@ SECRET_KEY = '%4b+4@j&o=ekv(&!@tx3=a*wxb^7ak$456l4kfk6mj#e$ypg42'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['54.242.193.234','127.0.0.1']
 
 
 # Application definition

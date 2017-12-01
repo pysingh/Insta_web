@@ -8,7 +8,7 @@ sys.path.append(workspace)
 sys.path.append(project)
 
 #Add the path to 3rd party django application and to django itself.
-sys.path.append('/var/www')
+sys.path.append('/var/www/')
 os.environ['DJANGO_SETTINGS_MODULE'] = 'Insta_Web.settings'
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()

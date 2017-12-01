@@ -1,0 +1,25 @@
+Database Structure:
+
+
+Users:
+first_name
+last_name
+email
+username
+password
+
+
+Instagram Account:
+	username
+	password
+	Followers
+	Following
+	Liked_media
+	max_follows
+	max_follows_per_hour
+	max_likes_per_hour
+	max_messages
+	message_text
+	message_link"
+
+

@@ -1,0 +1,59 @@
+<html>
+<head>
+<style>
+
+ #cover {
+    background: url("http://www.aveva.com/Images/ajax-loader.gif") no-repeat scroll center center white;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+display:None;
+}
+</style>
+
+</head>
+<body>
+<div id="cover"></div>
+<button onclick="loader()">start</button>
+<div id="dashboard_body">
+<p>adsjdjasdjsaldlsadkhdsasdgjsgdjasgdqwudwuqsgydygasgadys</p>
+<p>adsjdjasdjsaldlsadkhdsasdgjsgdjasgdqwudwuqsgydygasgadys</p>
+<p>adsjdjasdjsaldlsadkhdsasdgjsgdjasgdqwudwuqsgydygasgadys</p>
+<p>adsjdjasdjsaldlsadkhdsasdgjsgdjasgdqwudwuqsgydygasgadys</p>
+<p>adsjdjasdjsaldlsadkhdsasdgjsgdjasgdqwudwuqsgydygasgadys</p>
+<p>adsjdjasdjsaldlsadkhdsasdgjsgdjasgdqwudwuqsgydygasgadys</p>
+<p>adsjdjasdjsaldlsadkhdsasdgjsgdjasgdqwudwuqsgydygasgadys</p>
+<p>adsjdjasdjsaldlsadkhdsasdgjsgdjasgdqwudwuqsgydygasgadys</p>
+<p>adsjdjasdjsaldlsadkhdsasdgjsgdjasgdqwudwuqsgydygasgadys</p>
+<p>adsjdjasdjsaldlsadkhdsasdgjsgdjasgdqwudwuqsgydygasgadys</p>
+<p>adsjdjasdjsaldlsadkhdsasdgjsgdjasgdqwudwuqsgydygasgadys</p>
+<p>adsjdjasdjsaldlsadkhdsasdgjsgdjasgdqwudwuqsgydygasgadys</p>
+<p>adsjdjasdjsaldlsadkhdsasdgjsgdjasgdqwudwuqsgydygasgadys</p>
+<p>adsjdjasdjsaldlsadkhdsasdgjsgdjasgdqwudwuqsgydygasgadys</p>
+<p>adsjdjasdjsaldlsadkhdsasdgjsgdjasgdqwudwuqsgydygasgadys</p>
+<p>adsjdjasdjsaldlsadkhdsasdgjsgdjasgdqwudwuqsgydygasgadys</p>
+<p>adsjdjasdjsaldlsadkhdsasdgjsgdjasgdqwudwuqsgydygasgadys</p>
+<p>adsjdjasdjsaldlsadkhdsasdgjsgdjasgdqwudwuqsgydygasgadys</p>
+<p>adsjdjasdjsaldlsadkhdsasdgjsgdjasgdqwudwuqsgydygasgadys</p>
+<p>adsjdjasdjsaldlsadkhdsasdgjsgdjasgdqwudwuqsgydygasgadys</p>
+<p>adsjdjasdjsaldlsadkhdsasdgjsgdjasgdqwudwuqsgydygasgadys</p>
+<p>adsjdjasdjsaldlsadkhdsasdgjsgdjasgdqwudwuqsgydygasgadys</p>
+<p>adsjdjasdjsaldlsadkhdsasdgjsgdjasgdqwudwuqsgydygasgadys</p>
+
+</div>
+
+<script src="jquery.min.js"></script><script type="text/javascript" src="http://andywer.github.io/jquery-dim-background/jquery.dim-background.min.js"></script>
+
+<script>
+function loader(){	
+            $("#dashboard_body").dimBackground();
+            document.getElementById('cover').style.display='block';
+		setTimeout(function(){
+            $("#dashboard_body").undim();		
+            document.getElementById('cover').style.display='None';
+	
+}, 2000);
+		
+        }
+</script>
+</html>

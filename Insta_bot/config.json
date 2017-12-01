@@ -1,0 +1,10 @@
+{
+	"username": "nishafchoudhary",
+	"password": "maleeha97",
+	"max_follows": 1000,
+	"max_follows_per_hour": 1000,
+	"max_likes_per_hour": 1000,
+	"max_messages": 20,
+	"message_text": ["Welcome"],
+	"message_link": "nishaf"
+}

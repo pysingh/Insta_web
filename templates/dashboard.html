@@ -1,0 +1,1233 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="">
+
+    <title>User Dashboard</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+      <script src="{% static 'js/custom-js.js' %}"></script>
+    <style>
+        .fa { transform: scale(1.5,1.5);
+        }
+        .fa-size{
+            font-size: 10px;
+        }
+        .font{
+            font-size: 14px;
+        }
+        #cover{
+                background: url({% static 'img/ajax.gif' %}) no-repeat scroll center center transparent;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            display: None;
+        }
+        .tooltip_pause:hover:after{
+            background: #333;
+            background: rgba(0,0,0,.8);
+            border-radius: 5px;
+            bottom: 45px;
+            right: 28%;
+            color: #fff;
+            content: 'Pause';
+            padding: 5px;
+            position: absolute;
+        }
+        .tooltip_delete:hover:after {
+            background: #333;
+            background: rgba(0, 0, 0, .8);
+            border-radius: 5px;
+            bottom: 45px;
+            right: 5%;
+            color: #fff;
+            content: 'Delete';
+            padding: 5px;
+            position: absolute;
+        }
+        .message_hover:hover{
+            box-shadow: 0px 4px 2px 2px rgba(0, 0, 0, 0.2);
+        }
+        .scrollable-menu {
+            height: auto;
+            max-height: 400px;
+            overflow-x: hidden;
+        }
+          #loader {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: url({% static 'img/ajax.gif' %}) 50% 50% no-repeat rgb(249,249,249);
+    opacity: .8;
+              display: None;
+}
+    </style>
+
+      <style>
+
+          .cmn-toggle
+{
+  position: absolute;
+  margin-left: -9999px;
+  visibility: hidden;
+}
+
+.cmn-toggle + label
+{
+  display: block;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+input.cmn-toggle-round-flat + label
+{
+  padding: 2px;
+  width: 75px;
+  height: 30px;
+  background-color: #dddddd;
+  -webkit-border-radius: 60px;
+  -moz-border-radius: 60px;
+  -ms-border-radius: 60px;
+  -o-border-radius: 60px;
+  border-radius: 60px;
+  -webkit-transition: background 0.4s;
+  -moz-transition: background 0.4s;
+  -o-transition: background 0.4s;
+  transition: background 0.4s;
+}
+
+input.cmn-toggle-round-flat + label:before, input.cmn-toggle-round-flat + label:after
+{
+  display: block;
+  position: absolute;
+  content: "";
+}
+
+input.cmn-toggle-round-flat + label:before
+{
+  top: 2px;
+  left: 2px;
+  bottom: 2px;
+  right: 2px;
+  background-color: #fff;
+  -webkit-border-radius: 60px;
+  -moz-border-radius: 60px;
+  -ms-border-radius: 60px;
+  -o-border-radius: 60px;
+  border-radius: 60px;
+  -webkit-transition: background 0.4s;
+  -moz-transition: background 0.4s;
+  -o-transition: background 0.4s;
+  transition: background 0.4s;
+}
+
+input.cmn-toggle-round-flat + label:after
+{
+  top: 4px;
+  left: 4px;
+  bottom: 4px;
+  width: 22px;
+  background-color: #dddddd;
+  -webkit-border-radius: 52px;
+  -moz-border-radius: 52px;
+  -ms-border-radius: 52px;
+  -o-border-radius: 52px;
+  border-radius: 52px;
+  -webkit-transition: margin 0.4s, background 0.4s;
+  -moz-transition: margin 0.4s, background 0.4s;
+  -o-transition: margin 0.4s, background 0.4s;
+  transition: margin 0.4s, background 0.4s;
+}
+
+input.cmn-toggle-round-flat:checked + label
+{
+  background-color: #27A1CA;
+}
+
+input.cmn-toggle-round-flat:checked + label:after
+{
+  margin-left: 45px;
+  background-color: #27A1CA;
+}
+          .checkbox-slider--b-flat {
+  position: relative;
+}
+.checkbox-slider--b-flat input {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 0%;
+  margin: 0 0;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.checkbox-slider--b-flat input + span {
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.checkbox-slider--b-flat input + span:before {
+  position: absolute;
+  left: 0px;
+  display: inline-block;
+}
+.checkbox-slider--b-flat input + span > h4 {
+  display: inline;
+}
+.checkbox-slider--b-flat input + span {
+  padding-left: 40px;
+}
+.checkbox-slider--b-flat input + span:before {
+  content: "";
+  height: 20px;
+  width: 40px;
+  background: rgba(100, 100, 100, 0.2);
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.8);
+  transition: background 0.2s ease-out;
+}
+.checkbox-slider--b-flat input + span:after {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: 0px;
+  top: 0;
+  display: block;
+  background: #ffffff;
+  transition: margin-left 0.1s ease-in-out;
+  text-align: center;
+  font-weight: bold;
+  content: "";
+}
+.checkbox-slider--b-flat input:checked + span:after {
+  margin-left: 20px;
+  content: "";
+}
+.checkbox-slider--b-flat input:checked + span:before {
+  transition: background 0.2s ease-in;
+}
+.checkbox-slider--b-flat input + span {
+  padding-left: 40px;
+}
+.checkbox-slider--b-flat input + span:before {
+  border-radius: 20px;
+  width: 40px;
+}
+.checkbox-slider--b-flat input + span:after {
+  background: #ffffff;
+  content: "";
+  width: 20px;
+  border: solid transparent 2px;
+  background-clip: padding-box;
+  border-radius: 20px;
+}
+.checkbox-slider--b-flat input:not(:checked) + span:after {
+  -webkit-animation: popOut ease-in 0.3s normal;
+          animation: popOut ease-in 0.3s normal;
+}
+.checkbox-slider--b-flat input:checked + span:after {
+  content: "";
+  margin-left: 20px;
+  border: solid transparent 2px;
+  background-clip: padding-box;
+  -webkit-animation: popIn ease-in 0.3s normal;
+          animation: popIn ease-in 0.3s normal;
+}
+.checkbox-slider--b-flat input:checked + span:before {
+  background: #5cb85c;
+}
+
+      </style>
+</head>
+
+  <body style="background-color: #F1F3F6;">
+              <div id="cover"></div>
+              <div id="loader"></div>
+    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse" style="background: white;">
+      <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="{% url 'index' %}">Apollo Bot</a>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Account <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Payment</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Support</a>
+          </li>
+            <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div  class="container-fluid" style="margin-top: 20px;">
+      <div class="row">
+        <!--<nav class="col-sm-3 col-md-3 hidden-xs-down bg-faded sidebar" style="background-color: #343A40;">
+          <ul class="nav nav-pills flex-column">
+              <li class="nav-item" style="padding: 20px;">
+                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-plus" aria-hidden="true" style="padding-right: 5px;"></i>Add More Account</button>
+              </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Instagram Account<span class="sr-only">(current)</span></a>
+            </li>
+
+          </ul>
+        </nav>-->
+        <div class="col-md-2"></div>
+          <main class="col-md-8 pt-4" style="background-color: white; box-shadow: 0px 6px 4px 4px rgba(0, 0, 0, 0.2);">
+            <div id="dashboard_body">
+                <h1 id="username">{{ user.username}}</h1>
+                <div class="row">
+                    <div class="mr-auto" style="margin-left: 20px;">
+                        <span class="btn btn-plain" style="display: inline-block; vertical-align: middle; text-align: center; padding: 0 5px">
+                            <div><strong>{{ user.followed_by.count }}</strong></div>
+                            <div><small class="text-muted">Followers</small></div>
+                        </span>
+                        <span class="btn btn-plain" style="display: inline-block; vertical-align: middle; text-align: center; padding: 0 5px;">
+                            <div><strong>{{ user.follows.count }}</strong></div>
+                            <div><small class="text-muted">Following</small></div>
+                        </span>
+                    </div>
+                    <div class="ml-auto" style="margin-right: 20px;">
+                        <span style="display: inline-block; margin-bottom: 5px" class="hidden-xs">
+                            <span class="btn btn-plain" style="display: inline-block; vertical-align: middle; text-align: center; padding: 0 5px">
+                                <div>
+                                    <strong style="font-size: 12px">{{ status }}</strong>
+                                </div>
+                                <div><small class="text-muted">Account Status</small></div>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                <br>
+                <ul class="nav nav-tabs">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#target_card" data-toggle="tab" role="tab">Target</a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a class="nav-link" href="#message_card" data-toggle="tab" role="tab">Messages</a>
+                  </li>
+                </ul>
+                <div class="tab-content">
+                  <div class="tab-pane active" id="target_card" role="tabpanel">
+                      <div class="container row" style="margin-top: 20px;">
+                          <div class="col-md-6">
+                          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="width: 200px;height: 45px;">Add Target</button>
+                          </div>
+                          <div class="col-md-6" align="right" style="font-size: 18px;">
+                              <input type="checkbox" id="unfollow" name="unfollow" onclick="start_unfollow_function('{{ user.username }}')"><strong>Unfollow</strong>
+                          </div>
+                          <br>
+                           <!-- Modal -->
+                          <div class="modal fade" style="margin : 0 auto;" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog" role="document" style="vertical-align: middle;">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Target</h5>
+                                      </div>
+                                      <div class="modal-body">
+                                        <ul class="nav nav-tabs">
+                                          <li class="nav-item">
+                                            <a class="nav-link active" data-toggle="tab" role="tab" href="#target_username" >@username</a>
+                                          </li>
+                                          <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" role="tab" href="#target_tags">#tags</a>
+                                          </li>
+                                        </ul>
+
+                                        <div class="tab-content">
+                                            <div class="tab-pane active target_card" id="target_username" role="tab">
+                                                <div align="center" style="padding-top: 20px;color: darkgray;">
+                                                    <span>Target audience of Popular Instagram Accounts by listing their account usernames.</span><br><br>
+                                                    <span style="color:red;" id="username_display_error"></span>
+                                                </div>
+                                                <div style="padding: 20px;">
+                                                    <div class="form-inline">
+                                                        <span class="col-md-10" style="text-align: right">Max Follows Per Hour</span>
+                                                        <input type="number" class="form-control col-md-2"  value="10" id="username_max_follows_per_hour" name="max_follows_per_hour" min="1" max="30" placeholder="10">
+                                                    </div>
+                                                    <br>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" id="username_input" name="username_input" placeholder="e.g apollo_bot_munn">
+                                                    </div>
+                                                    <br>
+                                                    <div align="center" style="padding: 10px;">
+                                                        <button class="btn btn-success" name="username_submit" style="background-color: royalblue;" onclick="submit_info(this.name);">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane target_card" id="target_tags" role="tab" >
+                                                <div align="center" style="padding-top: 20px;color: darkgray;">
+                                                    <span>Enter Hashtags in which you'd expect to find your target audience.</span><br><br>
+                                                    <span style="color:red;" id="tag_display_error"></span>
+                                                </div>
+                                                <div style="padding: 20px;">
+                                                    <div class="form-inline">
+                                                        <span class="col-md-10" style="text-align: right">Max Follows Per Hour</span>
+                                                        <input type="number" class="form-control col-md-2" value="10" id="tag_max_follows_per_hour" name="max_follows_per_hour" min="1" max="30" placeholder="10">
+                                                    </div>
+                                                    <br>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" id="tags_input" name="tags_input" placeholder="e.g love, happy..">
+                                                    </div>
+                                                    <br>
+                                                    <div align="center" style="padding: 10px;">
+                                                        <button class="btn btn-success" name="tags_submit" style="background-color: royalblue;" onclick="submit_info(this.name);">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                            <br><br>
+                          <div id="target_cards_panel" align="center" class="container row">
+                            <div class="col-md-4">
+                                            <div class="card" style="width: 13rem; margin-bottom: 30px;">
+                                                <div style="background-color: lightblue; position: relative;padding:10px;text-align: center;">
+                                                    <span class="card-title" style="color: darkblue"><b>{{ i.target_value }}</b></span>
+                                                </div>
+                                                <div style="padding-top: 10px;">
+                                                    <div class="row" style="padding-left: 10px;">
+                                                        <span class="col-md-4 font">Likes</span>
+                                                        <span class="col-md-3"></span>
+                                                        <span class="col-md-5" style="padding-top: 2px;">
+                                                            <div class="checkbox checkbox-slider--b-flat">
+                                                                <label>
+                                                                    <input type="checkbox"><span></span>
+                                                                </label>
+                                                            </div>
+                                                        </span><br>
+                                                    </div>
+                                                    <div class="row" style="padding: 0px 10px 12px 10px;">
+                                                        <span class="col-md-4 font" >Following</span>
+                                                        <span class="col-md-3"></span>
+                                                        <span class="col-md-5 font">{{ i.following }}</span><br>
+                                                    </div>
+                                                    <div class="row" style="padding: 0px 10px 0px 10px;">
+                                                        <span class="col-md-4 font" >Followers</span>
+                                                        <span class="col-md-3"></span>
+                                                        <span class="col-md-5 font" >{{ i.follow }}</span>
+                                                    </div>
+
+                                                </div>
+                                                <div class="" align="right" style="padding: 0px 10px 10px 10px;">
+                                                    <hr>
+                                                        <a class="btn btn-primary fa-size tooltip_pause" type="button" id="{{ i.link_id }}" onclick="{{ i.play_pause_link }}">
+                                                            {% if i.status == 'active' %}<i class="fa fa-pause" style=""></i>{% else %}<i class="fa fa-play" style=""></i>{% endif %}
+                                                    </a>
+                                                    <a class="btn btn-warning fa-size tooltip_delete" type="button" id="{{ i.link_id }}" onclick="{{ i.delete_link }}">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                          <div id="likes_switch">Functionality Not Running...</div>
+                                {% for i in items %}
+                                    {% if i.target == 'username' %}
+                                        <div class="col-md-4">
+                                            <div class="card" style="width: 13rem; margin-bottom: 30px;">
+                                                <div style="background-color: lightblue; position: relative;padding:10px;text-align: center;">
+                                                    <span class="card-title" style="color: darkblue"><b>{{ i.target_value }}</b></span>
+                                                </div>
+                                                <div style="padding-top: 10px;">
+                                                    <div class="row" style="padding-left: 10px;">
+                                                        <span class="col-md-4 font" >Likes</span>
+                                                        <span class="col-md-3"></span>
+                                                        <span class="col-md-5" style="padding-top: 2px;">
+                                                            <div class="checkbox checkbox-slider--b-flat">
+                                                                <label>
+                                                                    <input type="checkbox" id="likes_check" {% if i.pause_like == True %}{% else %}checked{% endif %}><span></span>
+                                                                </label>
+                                                            </div>
+                                                        </span><br>
+                                                    </div>
+                                                    <div class="row" style="padding: 0px 10px 12px 10px;">
+                                                        <span class="col-md-4 font">Following</span>
+                                                        <span class="col-md-3"></span>
+                                                        <span class="col-md-5 font">{{ i.following }}</span><br>
+                                                    </div>
+                                                    <div class="row" style="padding: 0px 10px 0px 10px;">
+                                                        <span class="col-md-4 font" >Followers</span>
+                                                        <span class="col-md-3"></span>
+                                                        <span class="col-md-5 font" >{{ i.follow }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="" align="right" style="padding: 0px 10px 10px 10px;">
+                                                    <hr>
+                                                        <a class="btn btn-primary fa-size tooltip_pause" type="button" id="{{ i.link_id }}" onclick="{{ i.play_pause_link }}">
+                                                            {% if i.status == 'active' %}<i class="fa fa-pause" style=""></i>{% else %}<i class="fa fa-play" style=""></i>{% endif %}
+                                                    </a>
+                                                    <a class="btn btn-warning fa-size tooltip_delete" type="button" id="{{ i.link_id }}" onclick="{{ i.delete_link }}">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% elif i.target == 'tag' %}
+                                        <div class="col-md-4">
+                                            <div class="card" style="width: 13rem; margin-bottom: 30px;">
+                                                <div style="background-color: lightblue; position: relative;padding:10px;text-align: center;">
+                                                    <span class="card-title" style="color: darkblue"><b>{{ i.target_value }}</b></span>
+                                                </div>
+                                                <div style="padding-top: 10px;">
+                                                    <div class="row" style="padding-left: 10px;">
+                                                        <span class="col-md-4 font" >Likes</span>
+                                                        <span class="col-md-3"></span>
+                                                        <span class="col-md-5" style="padding-top: 2px;">
+                                                            <div class="checkbox checkbox-slider--b-flat">
+                                                                <label>
+                                                                    <input type="checkbox" id="likes_check" {% if i.pause_like == True %}{% else %} checked {% endif %}><span></span>
+                                                                </label>
+                                                            </div>
+                                                        </span><br>
+                                                    </div>
+                                                    <div class="row" style="padding: 0px 10px 10px 10px;">
+                                                        <span class="col-md-5 font" >Media_IDs</span>
+                                                        <span class="col-md-2"></span>
+                                                        <span class="col-md-5 font" >{{ i.following }}</span><br>
+                                                    </div>
+                                                    <div class="row" style="padding: 0px 10px 0px 10px;">
+                                                        <span class="col-md-5 font" >User_IDS</span>
+                                                        <span class="col-md-2"></span>
+                                                        <span class="col-md-5 font" >{{ i.follow }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="" align="right" style="padding: 0px 10px 10px 10px;">
+                                                    <hr>
+                                                        <a class="btn btn-primary fa-size tooltip_pause" type="button" id="{{ i.link_id }}" onclick="{{ i.play_pause_link }}">
+                                                            {% if i.status == 'active' %}<i class="fa fa-pause" style=""></i>{% else %}<i class="fa fa-play" style=""></i>{% endif %}
+                                                    </a>
+                                                    <a class="btn btn-warning fa-size tooltip_delete" type="button" id="{{ i.link_id }}" onclick="{{ i.delete_link }}">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                      </div>
+
+                  <div class="tab-pane" id="message_card" role="tabpanel">
+                      <div class="container" style="margin-top: 20px;">
+                          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#message_modal" style="width: 200px;height: 45px;">New Message</button>
+                          <div class="modal fade" style="margin : 0 auto;" id="message_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog" role="document" style="vertical-align: middle;">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Message New Users!</h5>
+                                      </div>
+                                      <div class="modal-body">
+
+                                            <div class="container scrollable-menu">
+                                                <div align="center">
+                                                    <span>You can add minimum of 3 messages and maximum of 6 messages.</span>
+                                                </div>
+                                                <div align="center">
+                                                    <span id="error" style="color:red;"></span>
+                                                </div>
+                                                <div align="right">
+                                                    <div>
+                                                        <!--<button class="btn btn-primary message_hover" id="add_message" onclick="add_fields()">
+                                                           <i class="fa fa-plus" style="color: darkblue;font-size: 15px;padding-right: 10px;"></i>Add Message Field</button>-->
+                                                        <span onclick="add_fields()"><i class="fa fa-plus" data-toggle="tooltip" title="Add Message Field" style="color: lawngreen;font-size: 15px;padding-right: 10px;"></i></span>
+                                                        <span onclick="remove_fields()"><i class="fa fa-minus" data-toggle="tooltip" title="Delete Message Field" style="color: darkgray;font-size: 15px;padding-right: 10px;"></i></span>
+                                                    </div>
+                                                </div>
+                                                <div id="message_container">
+                                                    <div>
+                                                        <label>Message</label>
+                                                        <textarea class="form-control" id="message0" name="message0" rows="2"></textarea>
+                                                        <label style="margin-top: 5px;">Hyperlink</label>
+                                                        <input class="form-control" type="text" placeholder="Hyperlink..." id="hyperlink0" name="hyperlink0">
+                                                    </div>
+                                                    <br>
+                                                    <div>
+                                                        <label>Message</label>
+                                                        <textarea class="form-control" id="message1" name="message1" rows="2"></textarea>
+                                                        <label style="margin-top: 5px;">Hyperlink</label>
+                                                        <input class="form-control" type="text" placeholder="Hyperlink..." id="hyperlink1" placeholder="Hyperlink..">
+                                                    </div>
+                                                    <br>
+                                                    <div>
+                                                        <label>Message</label>
+                                                        <textarea class="form-control" id="message2" name="message2" rows="2"></textarea>
+                                                        <label style="margin-top: 5px;">Hyperlink</label>
+                                                        <input class="form-control" type="text" placeholder="Hyperlink..." id="hyperlink2" name="hyperlink2">
+                                                    </div>
+                                                    <br>
+                                                </div>
+                                                <div align="center">
+                                                    <span id="validation_error" style="color:red;"></span><br><br>
+                                                    <button class="btn btn-success" name="username_submit" style="background-color: royalblue;" onclick="validate_message_data()">Submit</button>
+                                                </div>
+                                             </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <br><br>
+                          <div id="message_cards_panel" align="center" class="container row">
+                              <div class="col-md-4">
+                                            <div class="card" style="width: 13rem; margin-bottom: 30px;">
+                                                <div style="background-color: lightblue; position: relative;padding:10px;text-align: center;">
+                                                    <span class="card-title" style="color: darkblue"><b>Message Card</b></span>
+                                                </div>
+                                                <div style="padding-top: 10px;">
+                                                    <div class="row" style="padding: 0px 10px 10px 10px;">
+                                                        <span class="col-md-5 font">New Followers</span>
+                                                        <span class="col-md-2"></span>
+                                                        <span class="col-md-5 font" >5</span><br>
+                                                    </div>
+                                                    <div class="row" style="padding: 0px 10px 0px 10px;">
+                                                        <span class="col-md-5 font">Message Sent</span>
+                                                        <span class="col-md-2"></span>
+                                                        <span class="col-md-5 font">10</span>
+                                                    </div>
+                                                </div>
+                                                <div class="" align="right" style="padding: 0px 10px 10px 10px;">
+                                                    <hr>
+                                                        <a class="btn btn-primary fa-size tooltip_pause" type="button" id="{{ i.link_id }}" onclick="{{ i.play_pause_link }}">
+                                                            {% if i.status == 'active' %}<i class="fa fa-pause" style=""></i>{% else %}<i class="fa fa-play" style=""></i>{% endif %}
+                                                    </a>
+                                                    <a class="btn btn-warning fa-size tooltip_delete" type="button" id="{{ i.link_id }}" onclick="{{ i.delete_link }}">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                          </div>
+                      </div>
+                          <!--
+                      <div class="row">
+                          <div class="col-md-4" align="center"><span style="font-size: 20px;">Message</span> </div>
+                          <div class="col-md-4"></div>
+                          <div class="col-md-4" align="center">
+                          </div>
+                      </div>-->
+                  </div>
+                </div>
+                <br><br>
+            </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{% static 'js/jquery/jquery.min.js' %}"></script>
+      <script src="{% static 'js/jquery.dim-background.min.js' %}"></script>
+      <script src="{% static 'js/custom-js.js' %}"></script>
+    <script>
+
+        document.getElementById('error').innerHTML = "Minimum number of fields!\nNo more fields can be deleted.";
+        $('#error').hide();
+        var count = 3;
+        function start_unfollow_function(insta_username){
+            if(document.getElementById('unfollow').checked){
+                $.ajax({
+                  url: '/start_unfollow/',
+                  type: "GET",
+                  data: {
+                      'checked':'True',
+                      'insta_username': insta_username
+                  },
+                  contentType: "application/json;charset=utf-8",
+                  dataType: "json",
+                  success: function(data) {
+                      alert(data.res);
+                  }
+                });
+            }
+            else{
+                $.ajax({
+                  url: '/stop_unfollow/',
+                  type: "GET",
+                  data: {
+                      'checked':'False',
+                      'insta_username': insta_username
+                  },
+                  contentType: "application/json;charset=utf-8",
+                  dataType: "json",
+                  success: function(data) {
+                      alert(data.res);
+                  }
+                });
+            }
+        }
+        function loader(){
+            $("#dashboard_body").fadeOut();
+            $('#loader').show();
+        }
+
+         function add_fields(){
+            if(count<6){
+                document.getElementById('message_container').innerHTML += '<div>'+
+                    '<label>Message</label>' +
+                    '<textarea class="form-control" id="message'+parseInt(count)+'" name="message'+parseInt(count)+'" rows="2"></textarea>' +
+                    '<label style="margin-top: 5px;">Hyperlink</label>' +
+                    '<input class="form-control" type="text" placeholder="Hyperlink..." id="hyperlink'+parseInt(count)+'" name="hyperlink'+parseInt(count)+'"></div><br>';
+                count += 1;
+                if(count == 6){
+                //document.getElementById('add_message').disable = true;
+                //document.getElementById('add_message').style.backgroundColor = 'darkgray';
+                //$("#add_message").removeClass('message_hover');
+                document.getElementById('error').innerHTML = "Max Number of Fields Created";
+                setTimeout(function() {
+                    $('#error').hide();
+                 }, 3000);
+                }
+
+            }
+            else {
+                $('#error').show();
+                setTimeout(function() {
+                    $('#error').hide();
+                 }, 3000);
+            }
+        }
+        function remove_fields(){
+            if(count>3) {
+                count = count -1;
+                document.getElementById('message_container').innerHTML = '';
+                for (i = 0; i < count; i++) {
+                    document.getElementById('message_container').innerHTML += '<div>' +
+                        '<label>Message</label>' +
+                        '<textarea class="form-control" id="message'+parseInt(i)+'" name="message'+parseInt(i)+'" rows="2"></textarea>' +
+                        '<label style="margin-top: 5px;">Hyperlink</label>' +
+                        '<input class="form-control" type="text" placeholder="Hyperlink..." id="hyperlink'+parseInt(i)+'" name="hyperlink'+parseInt(i)+'"></div><br>';
+                }
+                if(count == 3){
+                    document.getElementById('error').innerHTML = "Minimum number of fields!\nNo more fields can be deleted.";
+                    setTimeout(function() {
+                    $('#error').hide();
+                 }, 3000);
+                }
+
+            }
+            else {
+                $('#error').show();
+                setTimeout(function() {
+                    $('#error').hide();
+                 }, 3000);
+            }
+        }
+        function validate_message_data(){
+            var messages = [];
+            var hyperlinks = [];
+            var data,hyperlink;
+
+            for(i=0;i<count;i++){
+                data = document.getElementById('message'+parseInt(i)).value;
+                hyperlink = document.getElementById('hyperlink'+parseInt(i)).value;
+                if(!data){
+                    document.getElementById('validation_error').innerHTML = "Message Fields cannot be None!";
+                    $('#validation_error').show();
+                    setTimeout(function() {
+                        $('#validation_error').hide();
+                     }, 3000);
+                    break;
+                }
+
+                messages.push(data);
+                hyperlinks.push(hyperlink);
+            }
+
+            //alert(messages);
+            //alert(hyperlinks);
+            send_message(messages,hyperlinks);
+        }
+
+        function send_message(messages,hyperlinks){
+            load_spinner();
+            $.ajax({
+              url: '/send_message',
+              type: "GET",
+              data: {
+                  'insta_username': "{{ user.username }}",
+                  'messages': JSON.stringify({ paramName: messages }),
+                  'hyperlinks': JSON.stringify({ paramName: hyperlinks })
+              },
+              contentType: "application/json;charset=utf-8",
+              dataType: "json",
+              success: function(data) {
+                  data1 = '<div class="col-md-4"><div class="card" style="width: 13rem; margin-bottom: 30px;">' +
+                  '<div style="background-color: lightblue; position: relative;padding:10px;text-align: center;">' +
+                  '<span class="card-title" style="color: darkblue"><b>Message Card</b></span></div>' +
+                  '<div style="padding-top: 10px;">' +
+                  '<div class="row" style="padding: 0px 10px 10px 10px;">' +
+                  '<span class="col-md-5 font" >New Followers</span>' +
+                  '<span class="col-md-2"></span>' +
+                  '<span class="col-md-5 font" >' + data.msg_card.new_followers + '</span><br>' +
+                  '</div>' +
+                  '<div class="row" style="padding: 0px 10px 10px 10px;">' +
+                  '<span class="col-md-5 font" >Messages Sent</span>' +
+                  '<span class="col-md-2"></span>' +
+                  '<span class="col-md-5 font" >' + data.msg_card.messages_sent+ '</span><br>' +
+                  '</div>' +
+                  '</div>' +
+                  '<div class="" align="right" style="padding: 0px 10px 10px 10px;"><hr> ' +
+                  '<a class="btn btn-primary fa-size" type="button" id="' + data.msg_card.link_id + '" onclick="' + "pause_message_functionality(" + "'" + data.msg_card.link_id + "','" + data.msg_card.pause_message + "','" + data.msg_card.insta_username + "');" + '">' +
+                  "<i class='fa fa-pause' aria-hidden='true'></i></a> " +
+                  '<a class="btn btn-warning fa-size" type="button" id="' + data.msg_card.link_id + '" onclick="' + "delete_message_functionality(" + "'" + data.msg_card.link_id + "','" + data.msg_card.delete_message + "','" + data.msg_card.insta_username + "');" + '">' +
+                  "<i class='fa fa-trash' aria-hidden='true'></i>" +
+                  '</a> ' +
+                  '</div>' +
+                  ' </div>' +
+                  '</div></div>';
+
+              $('#dashboard_body').css({'opacity': 1});
+              document.getElementById('loader').style.display = 'None';
+
+              document.getElementById("message_cards_panel").innerHTML += data1;
+              }
+            });
+        }
+        function start_message_functionality(tagname,play_link,insta_username){
+             $.ajax({
+              url: play_link,
+              type: "GET",
+              data: {
+                  'insta_username': insta_username,
+                  'link_id': tagname
+              },
+              contentType: "application/json;charset=utf-8",
+              dataType: "json",
+              success: function(data) {
+                  document.getElementById(tagname).innerHTML = '<i class="fa fa-pause" aria-hidden="true"></i>';
+                  document.getElementById(tagname).checked = true;
+                  document.getElementById(tagname).setAttribute('onclick', "pause_message_functionality('" + tagname + "','" + data.url + "','" + insta_username +"')");
+                }
+            });
+        }
+        function pause_message_functionality(tagname,pause_link,insta_username){
+            alert(tagname);
+             $.ajax({
+              url: pause_link,
+              type: "GET",
+              data: {
+                  'insta_username': insta_username,
+                  'link_id': tagname
+              },
+              contentType: "application/json;charset=utf-8",
+              dataType: "json",
+              success: function(data) {
+                  document.getElementById(tagname).innerHTML = '<i class="fa fa-play" aria-hidden="true"></i>';
+                  document.getElementById(tagname).checked = false;
+                  document.getElementById(tagname).setAttribute('onclick', "start_message_functionality('" + tagname + "','" + data.url + "','" + insta_username+"')");
+                }
+            });
+        }
+        function delete_message_functionality(tagname, link, insta_username){
+            alert(link);
+            load_spinner();
+            $.ajax({
+              url: link,
+              type: "GET",
+              data: {
+                  'insta_username': insta_username,
+                  'link_id': tagname
+              },
+              contentType: "application/json;charset=utf-8",
+              dataType: "json",
+              success: function(data) {
+                  if(data.json_response == 'Deleted'){
+                      window.location.href = "/dashboard/"+username+"/";
+                  }
+                  else {
+                      alert("Some error Occured While deleting. Please try again!");
+                  }
+              }
+            });
+        }
+    </script>
+
+    <!--
+    <script>
+        function change_active_status(object) {
+            $('.tab-pane').removeClass('active');
+            object.addClass('active');
+        }
+
+      </script>
+
+      <script>
+          function start_target_functionality(tagname,play_link,username, input_username){
+              $.ajax({
+                  url: play_link,
+                  type: "GET",
+                  data: {
+                      'username': username,
+                      'input_username': input_username,
+                      'link_id': tagname
+                  },
+                  contentType: "application/json;charset=utf-8",
+                  dataType: "json",
+                  success: function(data) {
+                        document.getElementById(tagname).innerHTML = '<i class="fa fa-pause" aria-hidden="true"></i>';
+                        document.getElementById(tagname).setAttribute('onclick', "pause_target_functionality('"+tagname+"','"+data.url+"','"+username+"','"+input_username+"','"+data.pid+"')");
+                    }
+                });
+              }
+          function pause_target_functionality(tagname,pause_link,username, input_username, pid){
+              $.ajax({
+                  url: pause_link,
+                  type: "GET",
+                  data: {
+                      'username': username,
+                      'input_username': input_username,
+                      'pid': pid,
+                      'link_id': tagname
+                  },
+                  contentType: "application/json;charset=utf-8",
+                  dataType: "json",
+                  success: function(data) {
+                        document.getElementById(tagname).innerHTML = '<i class="fa fa-play" aria-hidden="true"></i>';
+                        document.getElementById(tagname).setAttribute('onclick', "start_target_functionality('"+tagname+"','"+data.url+"','"+username+"','"+input_username+"')");
+                    }
+                });
+          }
+          function submit_info(button_name, input_id){
+              $('#myModal').modal('toggle');
+              var input = $(input_id).val();
+              var username = $("#username").text();
+              var input_username = $("#username_input").val();
+              alert(username);
+              $.ajax({
+                  url: "{% url 'dashboard_functions' %}",
+                  type: "GET",
+                  data: {
+                      'input': input,
+                      'username': username,
+                      'input_username': input_username,
+                      'button_clicked': button_name
+                  },
+                  contentType: "application/json;charset=utf-8",
+                  dataType: "json",
+                  success: function(data) {
+                        data1 = '<div class="col-md-4"><div class="card" style="width: 13rem; margin-bottom: 30px;">'+
+                                    '<div style="background-color: lightblue; position: relative;padding:10px;text-align: center;">' +
+                                        '<span class="card-title" style="color: darkblue"><b>'+data.user.input_username+'</b></span></div>' +
+                                        '<div style="padding-top: 10px;">' +
+                                            '<div class="row" style="padding: 0px 10px 10px 10px;">'+
+                                                '<span class="col-md-4" >Following</span>' +
+                                                '<span class="col-md-3"></span>' +
+                                                '<span class="col-md-5" >'+data.user.following+'</span><br>' +
+                                            '</div>' +
+                                            '<div class="row" style="padding: 0px 10px 10px 10px;">' +
+                                                '<span class="col-md-4" >Follows</span>' +
+                                                '<span class="col-md-3"></span>' +
+                                                '<span class="col-md-5" >'+data.user.follow+'</span><br>' +
+                                            '</div>' +
+                                        '</div>' +
+                                        '<div class="" align="right" style="padding: 0px 10px 10px 10px;"><hr> ' +
+                                            '<a class="btn btn-primary fa-size" type="button" id="'+ data.user.link_id + '" onclick="'+"pause_target_functionality("+"'"+data.user.link_id + "','" +data.user.pause_link +"','"+data.user.username +"','"+data.user.input_username +"','"+data.user.pid+"');" +'">' +
+                                            "<i class='fa fa-pause' aria-hidden='true'></i></a> " +
+                                            '<a class="btn btn-warning fa-size" type="button" id="'+ data.user.link_id + ' onclick=' +"pause_target_functionality("+"'"+data.user.link_id + "','" +data.user.pause_link +"','"+data.user.username +"','"+data.user.pid+"');" +'">' +
+                                               "<i class='fa fa-trash' aria-hidden='true'></i>" +
+                                            '</a> ' +
+                                        '</div>' +
+                                    ' </div>' +
+                                '</div></div>';
+                        document.getElementById("cards_panel").innerHTML += data1;
+                    }
+                });
+            }
+
+
+      </script>-->
+    <script>
+
+
+function change_active_status(object) {
+    $('.tab-pane').removeClass('active');
+    object.addClass('active');
+}
+
+function Likes() {
+   like = document.getElementById('cmn-toggle-4').checked;
+    if(like == true){
+        document.getElementById('likes_switch').innerHTML = "Functionality Running...";
+    }
+    else {
+        document.getElementById('likes_switch').innerHTML = "Functionality Not Running...";
+    }
+}
+function load_spinner(){
+  document.getElementById('loader').style.display = "block";
+}
+
+function delete_target_functionality(tagname, link, username, pid){
+    load_spinner();
+    $.ajax({
+      url: link,
+      type: "GET",
+      data: {
+          'username': username,
+          'link_id': tagname,
+          'pid': pid
+      },
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      success: function(data) {
+          if(data.json_response == 'Deleted'){
+              window.location.href = "/dashboard/"+username+"/";
+          }
+          else {
+              alert("Some error Occured While deleting. Please try again!");
+          }
+      }
+    });
+}
+
+function start_target_functionality(tagname,play_link,username, input_username){
+    $.ajax({
+      url: play_link,
+      type: "GET",
+      data: {
+          'username': username,
+          'input_username': input_username,
+          'link_id': tagname
+      },
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      success: function(data) {
+            document.getElementById(tagname).innerHTML = '<i class="fa fa-pause" aria-hidden="true"></i>';
+            document.getElementById(tagname).setAttribute('onclick', "pause_target_functionality('"+tagname+"','"+data.url+"','"+username+"','"+input_username+"')");
+        }
+    });
+}
+function start_likes_functionality(id,tagname,pause_link,username,input_username){
+    alert(id);
+     $.ajax({
+      url: pause_link,
+      type: "GET",
+      data: {
+          'username': username,
+          'input_username': input_username,
+          'link_id': tagname
+      },
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      success: function(data) {
+            document.getElementById(id).checked = true;
+            document.getElementById(id).setAttribute('onclick', "pause_likes_functionality('"+id+"','"+tagname+"','"+data.url+"','"+username+"','"+input_username+"')");
+        }
+    });
+}
+function pause_likes_functionality(id,tagname,pause_link,username,input_username){
+     $.ajax({
+      url: pause_link,
+      type: "GET",
+      data: {
+          'username': username,
+          'input_username': input_username,
+          'link_id': tagname
+      },
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      success: function(data) {
+            document.getElementById(id).checked = false;
+            document.getElementById(id).setAttribute('onclick', "start_likes_functionality('"+id+"','"+tagname+"','"+data.url+"','"+username+"','"+input_username+"')");
+        }
+    });
+}
+function pause_target_functionality(tagname,pause_link,username, input_username){
+    $.ajax({
+      url: pause_link,
+      type: "GET",
+      data: {
+          'username': username,
+          'input_username': input_username,
+          'link_id': tagname
+      },
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      success: function(data) {
+            document.getElementById(tagname).innerHTML = '<i class="fa fa-play" aria-hidden="true"></i>';
+            document.getElementById(tagname).setAttribute('onclick', "start_target_functionality('"+tagname+"','"+data.url+"','"+username+"','"+input_username+"')");
+        }
+    });
+}
+
+function submit_info(button_name){
+    var max_follows_per_hour = '';
+    var id = '';
+    if(button_name=='username_submit') {
+        max_follows_per_hour = $("#username_max_follows_per_hour").val();
+        id='username_display_error';
+    }
+    else if(button_name == 'tags_submit'){
+        max_follows_per_hour = $("#tag_max_follows_per_hour").val();
+        id='tag_display_error';
+    }
+    if(parseInt(max_follows_per_hour) > 30){
+       document.getElementById(id).innerHTML = 'Hours should be less then 30.';
+      return;
+    }
+  $('#myModal').modal('toggle');
+  var username = $("#username").text();
+  $('#dashboard_body').css({ 'opacity' : 0.5 });
+  document.getElementById('loader').style.display='block';
+
+
+  if(button_name=='username_submit') {
+      var input = $("#username_input").val();
+      $.ajax({
+          url: "/dashboard_functions",
+          type: "GET",
+          data: {
+              'username': username,
+              'input': input,
+              'max_follows_per_hour':max_follows_per_hour,
+              'button_clicked': button_name
+          },
+          contentType: "application/json;charset=utf-8",
+          dataType: "json",
+          success: function (data) {
+              data1 = '<div class="col-md-4"><div class="card" style="width: 13rem; margin-bottom: 30px;">' +
+                  '<div style="background-color: lightblue; position: relative;padding:10px;text-align: center;">' +
+                  '<span class="card-title" style="color: darkblue"><b>' + data.user.input_username + '</b></span></div>' +
+                  '<div style="padding-top: 10px;">' +
+                  '<div class="row" style="padding-left: 10px;">' +
+                  '<span class="col-md-4 font" >Likes</span>' +
+                  '<span class="col-md-3"></span>' +
+                  '<span class="col-md-5" style="padding-top: 2px;">' +
+                  '<div class="checkbox checkbox-slider--b-flat">' +
+                  '<label><input type="checkbox" id="likes_check_'+data.user.link_id+'" onclick="' + "start_likes_functionality(" + "'likes_check_"+data.user.link_id+ "','" + data.user.link_id + "','" + data.user.likes_play_link + "','" + data.user.username + "','" + data.user.input_username + "');" + '"><span></span></label>' +
+                  '</div></span><br>' +
+                  '</div>' +
+                  '<div class="row" style="padding: 0px 10px 10px 10px;">' +
+                  '<span class="col-md-4 font" >Following</span>' +
+                  '<span class="col-md-3"></span>' +
+                  '<span class="col-md-5" >' + data.user.following + '</span><br>' +
+                  '</div>' +
+                  '<div class="row" style="padding: 0px 10px 10px 10px;">' +
+                  '<span class="col-md-4 font" >Follows</span>' +
+                  '<span class="col-md-3"></span>' +
+                  '<span class="col-md-5" >' + data.user.follow + '</span><br>' +
+                  '</div>' +
+                  '</div>' +
+                  '<div class="" align="right" style="padding: 0px 10px 10px 10px;"><hr> ' +
+                  '<a class="btn btn-primary fa-size" type="button" id="' + data.user.link_id + '" onclick="' + "pause_target_functionality(" + "'" + data.user.link_id + "','" + data.user.pause_link + "','" + data.user.username + "','" + data.user.input_username + "');" + '">' +
+                  "<i class='fa fa-pause' aria-hidden='true'></i></a> " +
+                  '<a class="btn btn-warning fa-size" type="button" id="' + data.user.link_id + '" onclick="' + "delete_target_functionality(" + "'" + data.user.link_id + "','" + data.user.delete_link + "','" + data.user.username + "','" + data.user.pid + "');" + '">' +
+                  "<i class='fa fa-trash' aria-hidden='true'></i>" +
+                  '</a> ' +
+                  '</div>' +
+                  ' </div>' +
+                  '</div></div>';
+              $('#dashboard_body').css({'opacity': 1});
+              document.getElementById('loader').style.display = 'None';
+
+              document.getElementById("target_cards_panel").innerHTML += data1;
+          }
+      });
+  }
+  else if(button_name == 'tags_submit'){
+      input = $("#tags_input").val();
+      $.ajax({
+          url: "/dashboard_functions",
+          type: "GET",
+          data: {
+              'username': username,
+              'max_follows_per_hour': max_follows_per_hour,
+              'input': input,
+              'button_clicked': button_name
+          },
+          contentType: "application/json;charset=utf-8",
+          dataType: "json",
+          success: function (data) {
+              data1 = '<div class="col-md-4"><div class="card" style="width: 13rem; margin-bottom: 30px;">' +
+                  '<div style="background-color: lightblue; position: relative;padding:10px;text-align: center;">' +
+                  '<span class="card-title" style="color: darkblue"><b>' + data.user.input_tag + '</b></span></div>' +
+                  '<div style="padding-top: 10px;">' +
+                  '<div class="row" style="padding-left: 10px;">' +
+                  '<span class="col-md-4 font" >Likes</span>' +
+                  '<span class="col-md-3"></span>' +
+                  '<span class="col-md-5" style="padding-top: 2px;">' +
+                  '<div class="checkbox checkbox-slider--b-flat">' +
+                  '<label><input type="checkbox" id="likes_check_'+data.user.link_id+'"'+ '" onclick="' + "start_likes_functionality(" + "'likes_check_"+data.user.link_id + "','" + data.user.link_id + "','" + data.user.likes_play_link + "','" + data.user.username + "','" + data.user.input_username + "');" + '"><span></span></label>' +
+                  '</div></span><br>' +
+                  '</div>' +
+                  '<div class="row" style="padding: 0px 10px 10px 10px;">' +
+                  '<span class="col-md-5 font" >MEDIA_IDS</span>' +
+                  '<span class="col-md-2"></span>' +
+                  '<span class="col-md-5 font" >' + data.user.following + '</span><br>' +
+                  '</div>' +
+                  '<div class="row" style="padding: 0px 10px 10px 10px;">' +
+                  '<span class="col-md-5 font">USER_IDS</span>' +
+                  '<span class="col-md-2"></span>' +
+                  '<span class="col-md-5 font">' + data.user.follow + '</span><br>' +
+                  '</div>' +
+                  '</div>' +
+                  '<div class="" align="right" style="padding: 0px 10px 10px 10px;"><hr> ' +
+                  '<a class="btn btn-primary fa-size" type="button" id="' + data.user.link_id + '" onclick="' + "pause_target_functionality(" + "'" + data.user.link_id + "','" + data.user.pause_link + "','" + data.user.username + "','" + data.user.input_tag + "');" + '">' +
+                  "<i class='fa fa-pause' aria-hidden='true'></i></a> " +
+                  '<a class="btn btn-warning fa-size" type="button" id="' + data.user.link_id + '" onclick="' + "delete_target_functionality(" + "'" + data.user.link_id + "','" + data.user.delete_link + "','" + data.user.username + "','" + data.user.pid + "');" + '">' +
+                  "<i class='fa fa-trash' aria-hidden='true'></i>" +
+                  '</a> ' +
+                  '</div>' +
+                  ' </div>' +
+                  '</div></div>';
+
+              $('#dashboard_body').css({'opacity': 1});
+              document.getElementById('loader').style.display = 'None';
+
+              document.getElementById("target_cards_panel").innerHTML += data1;
+          }
+      });
+  }
+}
+    </script>
+    <script src="{% static 'js/popper.min.js'%}" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+    <!--
+    https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js
+    <script src="{% static 'js/jquery-3.1.1.slim.min.js' %}"></script>
+    <script src="{% static 'bootstrap.min.js' %}"></script>-->
+
+    <!--<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>-->
+  </body>
+</html>

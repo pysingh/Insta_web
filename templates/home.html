@@ -1,0 +1,268 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="">
+
+    <title>User Dashboard</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+      <style>
+#dashboard-account-add {
+  width: 100%;
+  height: 76px;
+  border-radius: 38px;
+
+    font-size: 25px;
+    background: dodgerblue; <!--#1b1e21;-->
+  box-shadow: 0px 4px 2px 2px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+#dashboard-account-add:hover{
+    background: dodgerblue;
+  box-shadow: 0px 6px 4px 4px rgba(0, 0, 0, 0.2);
+}
+
+#dashboard-account-add .dashboard-account-add-illustration {
+  height: 60px;
+  width: 60px;
+  border-radius: 60px;
+    margin-left: 8px;
+    margin-top: 8px;
+  margin-bottom: 8px;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  background: #f2f2f2;
+}
+
+#dashboard-account-add .dashboard-account-add-illustration img {
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+}
+
+ #dashboard-account-add .dashboard-account-add-symbol {
+  height: 60px;
+  width: 60px;
+  border-radius: 60px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  margin-left: 12px;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  background: #f2f2f2;
+}
+
+#dashboard-account-add .dashboard-account-add-symbol .symbol-plus {
+  color: #777;
+  line-height: 60px;
+  width: inherit;
+  height: inherit;
+  text-align: center;
+  font-size: 16px;
+}
+
+#dashboard-account-add .dashboard-account-add-text {
+  width: calc(100% - 162px);
+  padding-left: 10px;
+  height: 20px;
+  line-height: 20px;
+  font-size: 18px;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  color: #333;
+  display: inline-block;
+  vertical-align: middle;
+}
+                .style_prevu_kit
+        {
+            -webkit-transition: all 200ms ease-in;
+            -webkit-transform: scale(1);
+            -ms-transition: all 200ms ease-in;
+            -ms-transform: scale(1);
+            -moz-transition: all 200ms ease-in;
+            -moz-transform: scale(1);
+            transition: all 200ms ease-in;
+            transform: scale(1);
+
+}
+.style_prevu_kit:hover
+{
+            color: green;
+            text-decoration: none;
+    z-index: 2;
+    -webkit-transition: all 200ms ease-in;
+    -webkit-transform: scale(1.05);
+    -ms-transition: all 200ms ease-in;
+    -ms-transform: scale(1.05);
+    -moz-transition: all 200ms ease-in;
+    -moz-transform: scale(1.05);
+    transition: all 200ms ease-in;
+    transform: scale(1.05);
+}
+          .navbar{
+              box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.2);
+          }
+          #loader {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: url('../static/img/ajax.gif') 50% 50% no-repeat rgb(249,249,249);
+    opacity: .8;
+              display: None;
+}
+      </style>
+      <script src="{% static 'js/jquery/jquery.min.js' %}"></script>
+
+      <script>
+          function spinner(){
+              var username = $("#account_username").val();
+              var password = $("#account_password").val();
+              document.getElementById("modal-body").innerHTML = '<span style="font-size:20px;color:royalblue;">Trying to login as '+username+'</span><br>' +
+                  '<i class="fa fa-spinner fa-spin" style="font-size:30px;margin-top:10px;"></i>';
+              $.ajax({
+                  url: "{% url 'home' %}",
+                  type: "GET",
+                  data: {
+                      'account_username': username,
+                      'account_password': password
+                  },
+                  contentType: "application/json;charset=utf-8",
+                  dataType: "json",
+                  success: function(data) {
+                      if(data.res == 'Account Successfully Added!'){
+                          document.getElementById("modal-body").innerHTML = '<span style="font-size:20px;color:royalblue;">'+data.res +'<span>';
+                          setTimeout(function () {
+                          window.location.href =  "{% url 'index' %}";
+                          }, 2000);
+                      }
+                      else {
+                          document.getElementById("modal-body").innerHTML = '<span style="color:red;">'+data.res+'</span><div class="form-group" align="left" style="margin-top:10px;"><label>Instagram Username</label> <input type="text" class="form-control" id="account_username" name="account_username" placeholder="Username..."> </div>' +
+                              '<div class="form-group" align="left"> <label>Password</label> <input type="password" class="form-control" name="account_password" id="account_password" placeholder="Password..."> </div> <div class="form-group" align="right">' +
+                              '<button class="btn btn-primary" id="info_submit" style="background-color: royalblue;vertical-align: middle;" type="button" onclick="spinner()">Submit</button> </div>';
+                      }
+                    }
+                });
+            }
+
+
+
+      </script>
+      <script type="text/javascript">
+          function load_spinner(){
+              document.getElementById('loader').style.display = "block";
+          }
+      </script>
+
+</head>
+
+  <body style="background-color: whitesmoke;">
+  <div id="loader"></div>
+    <nav class="navbar navbar-toggleable-md fixed-top" style="background-color: white;">
+      <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="{% url 'index' %}">Apollo Bot</a>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Account <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Payment</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Support</a>
+          </li>
+            <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container-fluid" align="center" style="padding-top: 150px;">
+        {% if error %}
+        {{ error }}
+        {% endif %}
+            <div id="dashboard-account-add" data-toggle="modal" data-target="#myModal"style="color: white;width:400px;" align="left">
+                <div class="dashboard-account-add-illustration">
+                        <img src="https://gramista.com/img/dashboard-placeholder.png">
+                </div>
+               <p class="dashboard-account-add-text" style="color: white; font-size: 19px;padding-top: 5px;" align="center">
+                   Add Account
+               </p>
+            </div>
+            <div class="modal fade" style="margin-top: 100px;" id="myModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document" align="center">
+                    <div class="modal-content" align="center">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-users" aria-hidden="true"></i>Add Account</h5>
+                        </div>
+                        <div class="modal-body" id="modal-body">
+                                <div class="form-group" align="left">
+                                    <label>Instagram Username</label>
+                                    <input type="text" class="form-control" id="account_username" name="account_username" placeholder="Username...">
+                                </div>
+                                <div class="form-group" align="left">
+                                    <label>Password</label>
+                                    <input type="password" class="form-control" name="account_password" id="account_password" placeholder="Password...">
+                                </div>
+                                <div class="form-group" align="right">
+                                    <button class="btn btn-primary" id="info_submit" style="background-color: royalblue;vertical-align: middle;" type="button" onclick="spinner()">Submit</button>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% for i in accounts %}
+            <a href="{% url 'dashboard' username=i.instagram_username %}" onclick="load_spinner()">
+                <div id="dashboard-account-add" style="color: white; width: 400px;" align="left">
+                    <div class="dashboard-account-add-illustration">
+                            <img src="{{ i.instagram_image }}">
+                    </div>
+                   <p class="dashboard-account-add-text" style="color: white; font-size: 19px;padding-top: 5px;" align="center">
+                       {{ i.instagram_username }}
+                   </p>
+                </div>
+            </a>
+
+        {% endfor %}
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+  <!--<script src="{% static 'js/jquery-3.1.1.slim.min.js' %}"></script>
+    <script src="{% static 'bootstrap.min.js' %}"></script>-->
+   <!-- <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>-->
+  </body>
+</html>

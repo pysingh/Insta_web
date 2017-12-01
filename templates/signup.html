@@ -1,0 +1,244 @@
+{% load static %}
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+-->
+{% load static %}
+<html>
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nova Theme</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="Nova theme" content="width=device-width, initial-scale=1">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'landing/style.css' %}"/>
+    <link rel="stylesheet" href="{% static 'landing/responsive.css' %}"/>
+
+
+</head>
+
+<body style="background-image: url('../static/landing/images/features-bg.jpg'); color: white;">
+
+   <div class="container" align="center" style="margin-top: 50px;">
+        <div class="col-md-4"></div>
+       <div class="col-md-8" align="center">
+           <h2><strong>Sign Up</strong></h2><br>
+        <!--<form role="form" method="post" action="{% url 'signup' %}">{% csrf_token %}
+            <div class="form-group">
+            <label for="fname">First Name</label>
+            <input type="text" class="form-control" name="fname" id="fname" placeholder="Enter First Name...">
+          </div>
+            <div class="form-group">
+            <label for="lname">Last Name</label>
+            <input type="text" class="form-control" name="lname" id="lname" placeholder="Enter Last Name...">
+          </div>
+            <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" name="username" id="username" placeholder="Enter Username...">
+          </div>
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" name="email" id="email" placeholder="Enter Email..">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password...">
+          </div>
+
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>-->
+
+            <form class="form-horizontal" autocomplete="off" role="form" method="post" action="{% url 'signup' %}">{% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
+                        <label for="name">{{ field.label_tag }}</label>
+                        <div style="color: black">{{ field }}</div>
+                        </div>
+                        <div class="col-md-4">
+                            <div>
+                                <span class="small" style="color: black;">{{ field.errors }}</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div align="center">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+
+<!--
+<div class="container row" style="padding-bottom: 50px;">
+    <div class="col-md-5"></div>
+    <div class="col-md-4">
+        <h2 style="margin-top: 50px; text-align: center">Sign Up</h2>
+        <h4 style="margin-top: 20px;" align="center">
+            {% if error_message %}
+                {{ error_message }}
+            {% endif %}
+        </h4>
+        <form class="form-horizontal" action="{% url 'signup' %}" method="post">{% csrf_token %}
+            <div style="margin-top: 30px;" >
+                <div class="form-group">
+                  <label style="text-align: left;">First Name</label>
+                  <div class="input-group">
+                     <input  name="first_name" placeholder="First Name" class="form-control"  type="text">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label style="text-align: left;">Last Name</label>
+                  <div class="input-group">
+                     <input  name="last_name" placeholder="Last Name" class="form-control"  type="text">
+                  </div>
+                </div>
+                 <div class="form-group">
+                  <label style="text-align: left;">Email</label>
+                  <div class="input-group">
+                     <input  name="email" placeholder="Email Address" class="form-control"  type="email">
+                  </div>
+                </div>
+                 <div class="form-group">
+                  <label style="text-align: left;">Username</label>
+                  <div class="input-group">
+                     <input  name="username" placeholder="Username" class="form-control"  type="text">
+                  </div>
+                </div>
+                 <div class="form-group">
+                  <label style="text-align: left;">Password</label>
+                  <div class="input-group">
+                     <input  name="password" placeholder="Password" class="form-control"  type="password">
+                  </div>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+      $(document).ready(function() {
+    $('#contact_form').bootstrapValidator({
+        // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            first_name: {
+                validators: {
+                        stringLength: {
+                        min: 2,
+                    },
+                        notEmpty: {
+                        message: 'Please enter your First Name'
+                    }
+                }
+            },
+             last_name: {
+                validators: {
+                     stringLength: {
+                        min: 2,
+                    },
+                    notEmpty: {
+                        message: 'Please enter your Last Name'
+                    }
+                }
+            },
+			 user_name: {
+                validators: {
+                     stringLength: {
+                        min: 8,
+                    },
+                    notEmpty: {
+                        message: 'Please enter your Username'
+                    }
+                }
+            },
+			 user_password: {
+                validators: {
+                     stringLength: {
+                        min: 8,
+                    },
+                    notEmpty: {
+                        message: 'Please enter your Password'
+                    }
+                }
+            },
+			confirm_password: {
+                validators: {
+                     stringLength: {
+                        min: 8,
+                    },
+                    notEmpty: {
+                        message: 'Please confirm your Password'
+                    }
+                }
+            },
+            email: {
+                validators: {
+                    notEmpty: {
+                        message: 'Please enter your Email Address'
+                    },
+                    emailAddress: {
+                        message: 'Please enter a valid Email Address'
+                    }
+                }
+            },
+            contact_no: {
+                validators: {
+                  stringLength: {
+                        min: 12,
+                        max: 12,
+                    notEmpty: {
+                        message: 'Please enter your Contact No.'
+                     }
+                }
+            },
+			 department: {
+                validators: {
+                    notEmpty: {
+                        message: 'Please select your Department/Office'
+                    }
+                }
+            },
+                }
+            }
+        })
+        .on('success.form.bv', function(e) {
+            $('#success_message').slideDown({ opacity: "show" }, "slow") // Do something ...
+                $('#contact_form').data('bootstrapValidator').resetForm();
+
+            // Prevent form submission
+            e.preventDefault();
+
+            // Get the form instance
+            var $form = $(e.target);
+
+            // Get the BootstrapValidator instance
+            var bv = $form.data('bootstrapValidator');
+
+            // Use Ajax to submit form data
+            $.post($form.attr('action'), $form.serialize(), function(result) {
+                console.log(result);
+            }, 'json');
+        });
+});
+</script>-->
+</body>
+</html>

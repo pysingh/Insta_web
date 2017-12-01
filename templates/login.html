@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <title>Title</title>
+       <link rel="stylesheet" href="{% static 'landing/style.css' %}"/>
+    <link rel="stylesheet" href="{% static 'landing/responsive.css' %}"/>
+
+</head>
+<body class="" style="background-image: url('../static/landing/images/features-bg.jpg'); color: white;">
+<div class="container row">
+    <div class="col-md-5"></div>
+    <div class="col-md-4">
+        <h2 class="form-signin-heading" style="margin-top: 100px; text-align: center">Sign In</h2>
+        <h4 style="margin-top: 20px;" align="center">
+            {% if error_message %}
+                {{ error_message }}
+            {% endif %}
+        </h4>
+        <form class="form-signin" action="{% url 'login' %}" method="post">{% csrf_token %}
+            <div style="margin-top: 50px;" >
+                <label for="inputName" class="sr-only">Email address</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="username" required="">
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input type="password" id="password" style="margin-top: 5px;" name="password" class="form-control" autocomplete="off" placeholder="Password" required="">
+                <br>
+                <button class="btn btn-lg btn-success btn-block" type="submit">Sign in</button>
+            </div>
+            <p align="center">Don't have an Account?<br> Click <a href="{% url 'signup' %}" style="color: white">Here</a> to Sign Up.</p>
+        </form>
+    </div>
+</div>
+
+
+
+</body>
+</html>

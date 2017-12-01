@@ -1,0 +1,14 @@
+Start time: 2017-11-17 09:04:49.865485 Logout: likes - 0, follow - 1, unfollow - 0. followbacks: 0 Bot work time: 0:01:49.945872
+Start time: 2017-11-17 09:07:21.322607 Logout: likes - 0, follow - 3, unfollow - 0. followbacks: 0 Bot work time: 0:02:25.471432
+Start time: 2017-11-17 09:10:07.768761 Logout: likes - 0, follow - 0, unfollow - 0. followbacks: 0 Bot work time: 0:00:29.371333
+Start time: 2017-11-17 09:11:14.226196 Logout: likes - 0, follow - 1, unfollow - 0. followbacks: 0 Bot work time: 0:04:40.628665
+Start time: 2017-11-17 09:16:46.049585 Logout: likes - 0, follow - 3, unfollow - 0. followbacks: 0 Bot work time: 0:02:45.897483
+Start time: 2017-11-17 09:19:53.126251 Logout: likes - 0, follow - 0, unfollow - 0. followbacks: 0 Bot work time: 0:00:05.444196
+Start time: 2017-11-17 09:20:23.923426 Logout: likes - 0, follow - 0, unfollow - 0. followbacks: 0 Bot work time: 0:00:26.416338
+Start time: 2017-11-17 09:21:14.018434 Logout: likes - 0, follow - 2, unfollow - 0. followbacks: 0 Bot work time: 0:00:45.191137
+Start time: 2017-11-17 09:30:22.008043 Logout: likes - 0, follow - 0, unfollow - 0. followbacks: 0 Bot work time: 0:02:14.456335
+Start time: 2017-11-17 11:13:06.405540 Logout: likes - 0, follow - 0, unfollow - 0. followbacks: 0 Bot work time: 0:00:13.484584
+Start time: 2017-11-17 11:13:42.481997 Logout: likes - 0, follow - 0, unfollow - 0. followbacks: 0 Bot work time: 0:00:59.879809
+Start time: 2017-11-17 11:15:06.390975 Logout: likes - 0, follow - 0, unfollow - 0. followbacks: 0 Bot work time: 0:02:30.772858
+Start time: 2017-11-27 09:30:09.030705 Logout: likes - 0, follow - 0, unfollow - 0. followbacks: 0 Bot work time: 0:00:56.444094
+Start time: 2017-11-27 09:31:32.480504 Logout: likes - 0, follow - 0, unfollow - 0. followbacks: 0 Bot work time: 0:00:39.656071

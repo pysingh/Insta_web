@@ -254,7 +254,7 @@ class InstagramFunctions(View):
             link_id = input_user + "_" + str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
             p = Process(target=main, kwargs={'target_type':'tag','link_id':link_id,'account_user':request.user,'target_tag': input_user, 'username': db_obj.instagram_username,
-                                              'max_follows_per_hour': int(request.GET['max_follows_per_hour']),'password': db_obj.instagram_password, 'pause_follow': False})
+                                              'max_follows_per_hour': 1000,'password': db_obj.instagram_password, 'pause_follow': False}) #int(request.GET['max_follows_per_hour'])
             print(os.getpid())
             p.start()
             pid = p.pid

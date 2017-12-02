@@ -359,7 +359,6 @@ class DeleteFunctionality(View):
         return JsonResponse({'json_response':'Deleted'})
 
 
-
 class MessageFunctionality(View):
     def get(self,request):
         messages = request.GET['messages']

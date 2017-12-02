@@ -12,7 +12,7 @@ from datetime import datetime
 import os,json
 from .extra_functions import *
 from time import sleep
-
+import django.db
 
 class HomePage(View):
     def get(self, request):
@@ -20,6 +20,7 @@ class HomePage(View):
             return render(request, 'landing.html')
         else:
             print(request.user)
+            django.db.close_old_connections()
             db_obj = InstagramAccounts.objects.filter(username=request.user)
             for i in db_obj.all():
                 print(i.username + " " + i.instagram_username)
@@ -39,6 +40,8 @@ class Home(View):
         password = request.GET['account_password']
         print(request.user)
         print(username,password)
+
+        django.db.close_old_connections()
         db_obj = InstagramAccounts.objects.filter(username=request.user,instagram_username=username)
         if db_obj.count() == 0:
             bot = Apollo(login=username, password=password)
@@ -49,6 +52,7 @@ class Home(View):
                 user = bot.get_user_info(username)
                 print(user['profile_pic_url_hd'])
                 bot.logout()
+                django.db.close_old_connections()
                 a = InstagramAccounts(username=request.user,instagram_username=username,instagram_password=password,
                                       instagram_image=user['profile_pic_url_hd'], instagram_account_status='active', paid_date='09-11-2017')
                 a.save()
@@ -117,6 +121,8 @@ class SignUp(View):
 class Dashboard(View):
     def get(self, request, username):
         items = []
+
+        django.db.close_old_connections()
         acc = InstagramAccounts.objects.filter(username=request.user, instagram_username=username)[0]
         db_obj = TargetFunctionalityDB.objects.filter(username=request.user,
                                                         instagram_username=acc.instagram_username)
@@ -151,6 +157,8 @@ class Dashboard(View):
                     follows = info['followed_by']['count']
                     following = info['follows']['count']
                     print(follows,following)
+
+                    django.db.close_old_connections()
                     TargetFunctionalityDB.objects.filter(username=i.username,instagram_username=i.instagram_username,
                                                            pid=i.pid,link_id=i.link_id).update(followers_usernameids=follows,following_mediaids=following)
                     items.append({
@@ -207,6 +215,8 @@ class InstagramFunctions(View):
         print(request.GET['button_clicked'])
         username = request.GET['username']
         input_user = request.GET['input']
+
+        django.db.close_old_connections()
         db_obj = InstagramAccounts.objects.filter(username=request.user, instagram_username=username)[0]
         if request.GET['button_clicked'] == 'username_submit':
             print('Username Clicked!')
@@ -226,6 +236,7 @@ class InstagramFunctions(View):
             pid = p.pid
             print(pid)
 
+            django.db.close_old_connections()
             TargetFunctionalityDB(username=request.user, instagram_username=db_obj.instagram_username,
                                     pid=pid, target_value=input_user, target='username', status='active',
                                     link_id=link_id,
@@ -260,11 +271,14 @@ class InstagramFunctions(View):
             pid = p.pid
             print(pid)
 
+            django.db.close_old_connections()
             TargetFunctionalityDB(username=request.user, instagram_username=db_obj.instagram_username,
                                     pid=pid, target='tag',target_value=input_user, status='active', link_id=link_id,
                                     pause_like=True,pause_follow=False).save()
 
             while True:
+
+                django.db.close_old_connections()
                 item = TargetFunctionalityDB.objects.filter(username=request.user, instagram_username=db_obj.instagram_username,
                                                link_id=link_id,target_value=input_user)[0]
                 if item.following_mediaids == '0' and item.followers_usernameids == '0':
@@ -297,6 +311,7 @@ class InstagramFunctions(View):
 
 class PauseLikesFunctionality(View):
     def get(self, request):
+        django.db.close_old_connections()
         TargetFunctionalityDB.objects.filter(link_id=request.GET['link_id'],
                                                       username=request.user,
                                                       instagram_username=request.GET['username']).update(pause_like=True, status='active')
@@ -306,6 +321,7 @@ class PauseLikesFunctionality(View):
 
 class PlayLikesFunctionality(View):
     def get(self, request):
+        django.db.close_old_connections()
         TargetFunctionalityDB.objects.filter(link_id=request.GET['link_id'],
                                                       username=request.user,
                                                       instagram_username=request.GET['username']).update(pause_like=False, status='active')
@@ -314,7 +330,7 @@ class PlayLikesFunctionality(View):
 
 class PauseFunctionality(View):
     def get(self, request):
-
+        django.db.close_old_connections()
         TargetFunctionalityDB.objects.filter(username=request.user,
                                                 instagram_username=request.GET['username'],
                                                 target_value=request.GET['input_username'],
@@ -327,7 +343,7 @@ class PauseFunctionality(View):
 
 class PlayFunctionality(View):
     def get(self, request):
-
+        django.db.close_old_connections()
         TargetFunctionalityDB.objects.filter(link_id=request.GET['link_id'], username=request.user,
                                                instagram_username=request.GET['username']).update(pause_follow=False,pause_like=True,status='active')
 
@@ -335,7 +351,7 @@ class PlayFunctionality(View):
 
 class DeleteFunctionality(View):
     def get(self,request):
-
+        django.db.close_old_connections()
         os.system('kill -9 ' + request.GET['pid'])  ####   PID OF PROCESS, FOR DELETION OF DATA
         db_obj = TargetFunctionalityDB.objects.filter(username=request.user,instagram_username=request.GET['username'],
                                                link_id=request.GET['link_id'], pid=request.GET['pid'])[0]
@@ -357,6 +373,8 @@ class MessageFunctionality(View):
 
         insta_user = request.GET['insta_username']
         print(insta_user)
+
+        django.db.close_old_connections()
         db_obj = InstagramAccounts.objects.filter(username=request.user, instagram_username=insta_user)[0]
 
         link_id = insta_user +  "_"  + str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
@@ -374,6 +392,7 @@ class MessageFunctionality(View):
         bot.logout()
         p.start()
 
+        django.db.close_old_connections()
         MessageFunctionalityDB(username=request.user,instagram_username=insta_user,
                                message_id=link_id,message_pause=False,pid=p.pid).save()
 
@@ -392,6 +411,8 @@ class PauseMessageFunctionality(View):
     def get(self, request):
         print(request.GET['link_id'])
         msgid = request.GET['link_id']
+
+        django.db.close_old_connections()
         MessageFunctionalityDB.objects.filter(username=request.user,
                                                 instagram_username=request.GET['insta_username'],
                                                 message_id=msgid).update(status='pause',message_pause=True)
@@ -402,6 +423,8 @@ class PauseMessageFunctionality(View):
 class PlayMessageFunctionality(View):
     def get(self, request):
         print(request.GET['link_id'])
+
+        django.db.close_old_connections()
         MessageFunctionalityDB.objects.filter(username=request.user,
                                                 instagram_username=request.GET['insta_username'],
                                                 message_id=request.GET['link_id']).update(status='active',message_pause=False)
@@ -410,6 +433,7 @@ class PlayMessageFunctionality(View):
 
 class DeleteMessageFunctionality(View):
     def get(self,request):
+        django.db.close_old_connections()
         db_obj = MessageFunctionalityDB.objects.filter(username=request.user,
                                                 instagram_username=request.GET['insta_username'],
                                                 message_id=request.GET['link_id'])[0]
@@ -424,11 +448,15 @@ class Unfollow(View):
         insta_user = request.GET['insta_username']
         if request.GET['checked'] == 'True':
             print('Checked')
+
+            django.db.close_old_connections()
             db_obj = InstagramAccounts.objects.filter(username=request.user, instagram_username=insta_user)[0]
 
             p = Process(target=main, kwargs={'username': db_obj.instagram_username,
                                              'password': db_obj.instagram_password,'cleanup':False})
             p.start()
+
+            django.db.close_old_connections()
             InstagramUnfollowDB(username=request.user,instagram_username=insta_user,cleanup_pause=False,pid=p.pid).save()
 
         elif request.GET['checked'] == 'False':

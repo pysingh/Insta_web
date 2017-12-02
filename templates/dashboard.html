@@ -347,7 +347,7 @@ input.cmn-toggle-round-flat:checked + label:after
                           <div class="col-md-6" align="right" style="font-size: 18px;">
                               <input type="checkbox" id="unfollow" name="unfollow" onclick="start_unfollow_function('{{ user.username }}')"><strong>Unfollow</strong>
                           </div>
-                          <br>
+                          <br><br><br>
                            <!-- Modal -->
                           <div class="modal fade" style="margin : 0 auto;" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                               <div class="modal-dialog" role="document" style="vertical-align: middle;">
@@ -411,50 +411,48 @@ input.cmn-toggle-round-flat:checked + label:after
                                   </div>
                               </div>
                           </div>
-                            <br><br>
-                          <div id="target_cards_panel" align="center" class="container row">
-                            <div class="col-md-4">
-                                            <!--<div class="card" style="width: 13rem; margin-bottom: 30px;">
-                                                <div style="background-color: lightblue; position: relative;padding:10px;text-align: center;">
-                                                    <span class="card-title" style="color: darkblue"><b>{{ i.target_value }}</b></span>
-                                                </div>
-                                                <div style="padding-top: 10px;">
-                                                    <div class="row" style="padding-left: 10px;">
-                                                        <span class="col-md-4 font">Likes</span>
-                                                        <span class="col-md-3"></span>
-                                                        <span class="col-md-5" style="padding-top: 2px;">
-                                                            <div class="checkbox checkbox-slider--b-flat">
-                                                                <label>
-                                                                    <input type="checkbox"><span></span>
-                                                                </label>
-                                                            </div>
-                                                        </span><br>
-                                                    </div>
-                                                    <div class="row" style="padding: 0px 10px 12px 10px;">
-                                                        <span class="col-md-4 font" >Following</span>
-                                                        <span class="col-md-3"></span>
-                                                        <span class="col-md-5 font">{{ i.following }}</span><br>
-                                                    </div>
-                                                    <div class="row" style="padding: 0px 10px 0px 10px;">
-                                                        <span class="col-md-4 font" >Followers</span>
-                                                        <span class="col-md-3"></span>
-                                                        <span class="col-md-5 font" >{{ i.follow }}</span>
-                                                    </div>
+                          <div id="target_cards_panel" align="center" class="container row" style="padding-top: 10px;">
+                              <!--<div class="col-md-4">
+                                  <div class="card" style="width: 13rem; margin-bottom: 30px;">
+                                      <div style="background-color: lightblue; position: relative;padding:10px;text-align: center;">
+                                          <span class="card-title" style="color: darkblue"><b>{{ i.target_value }}</b></span>
+                                      </div>
+                                      <div style="padding-top: 10px;">
+                                          <div class="row" style="padding-left: 10px;">
+                                              <span class="col-md-4 font">Likes</span>
+                                              <span class="col-md-3"></span>
+                                              <span class="col-md-5" style="padding-top: 2px;">
+                                                  <div class="checkbox checkbox-slider--b-flat">
+                                                      <label>
+                                                          <input type="checkbox"><span></span>
+                                                      </label>
+                                                  </div>
+                                              </span><br>
+                                          </div>
+                                          <div class="row" style="padding: 0px 10px 12px 10px;">
+                                              <span class="col-md-4 font" >Following</span>
+                                              <span class="col-md-3"></span>
+                                              <span class="col-md-5 font">{{ i.following }}</span><br>
+                                          </div>
+                                          <div class="row" style="padding: 0px 10px 0px 10px;">
+                                              <span class="col-md-4 font" >Followers</span>
+                                              <span class="col-md-3"></span>
+                                              <span class="col-md-5 font" >{{ i.follow }}</span>
+                                          </div>
+                                      </div>
+                                      <div class="" align="right" style="padding: 0px 10px 10px 10px;">
+                                          <hr>
+                                          <a class="btn btn-primary fa-size tooltip_pause" type="button" id="{{ i.link_id }}" onclick="{{ i.play_pause_link }}">
+                                              {% if i.status == 'active' %}<i class="fa fa-pause" style=""></i>{% else %}<i class="fa fa-play" style=""></i>{% endif %}
+                                          </a>
+                                          <a class="btn btn-warning fa-size tooltip_delete" type="button" id="{{ i.link_id }}" onclick="{{ i.delete_link }}">
+                                              <i class="fa fa-trash" aria-hidden="true"></i>
+                                          </a>
+                                      </div>
+                                  </div>
+                              </div>-->
 
-                                                </div>
-                                                <div class="" align="right" style="padding: 0px 10px 10px 10px;">
-                                                    <hr>
-                                                        <a class="btn btn-primary fa-size tooltip_pause" type="button" id="{{ i.link_id }}" onclick="{{ i.play_pause_link }}">
-                                                            {% if i.status == 'active' %}<i class="fa fa-pause" style=""></i>{% else %}<i class="fa fa-play" style=""></i>{% endif %}
-                                                    </a>
-                                                    <a class="btn btn-warning fa-size tooltip_delete" type="button" id="{{ i.link_id }}" onclick="{{ i.delete_link }}">
-                                                        <i class="fa fa-trash" aria-hidden="true"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                          <div id="likes_switch">Functionality Not Running...</div>-->
                                 {% for i in items %}
                                     {% if i.target == 'username' %}
                                         <div class="col-md-4">
@@ -540,7 +538,6 @@ input.cmn-toggle-round-flat:checked + label:after
                                 {% endfor %}
                             </div>
                         </div>
-                      </div>
                   </div>
                   <div class="tab-pane" id="message_card" role="tabpanel">
                       <div class="container" style="margin-top: 20px;">
@@ -600,8 +597,9 @@ input.cmn-toggle-round-flat:checked + label:after
                                   </div>
                               </div>
                           </div>
-                          <br><br>
-                          <div id="message_cards_panel" align="center" class="container row">
+                      </div>
+                      <br><br>
+                      <div id="message_cards_panel" align="center" class="container row">
                               <!--<div class="col-md-4">
                                             <div class="card" style="width: 13rem; margin-bottom: 30px;">
                                                 <div style="background-color: lightblue; position: relative;padding:10px;text-align: center;">
@@ -630,7 +628,8 @@ input.cmn-toggle-round-flat:checked + label:after
                                                 </div>
                                             </div>
                                         </div>-->
-                          </div>
+
+                      </div>
                           <!--
                       <div class="row">
                           <div class="col-md-4" align="center"><span style="font-size: 20px;">Message</span> </div>

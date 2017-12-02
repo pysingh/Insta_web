@@ -82,6 +82,7 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD':'nishaf123',
         'HOST': '127.0.0.1',
+        'wait_timeout' : 600,
     },
 
 }

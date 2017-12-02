@@ -770,6 +770,7 @@ input.cmn-toggle-round-flat:checked + label:after
         }
 
         function send_message(messages,hyperlinks){
+            $('#message_modal').modal('toggle');
             load_spinner();
             $.ajax({
               url: '/send_message',
@@ -832,7 +833,6 @@ input.cmn-toggle-round-flat:checked + label:after
             });
         }
         function pause_message_functionality(tagname,pause_link,insta_username){
-            alert(tagname);
              $.ajax({
               url: pause_link,
               type: "GET",
@@ -850,7 +850,6 @@ input.cmn-toggle-round-flat:checked + label:after
             });
         }
         function delete_message_functionality(tagname, link, insta_username){
-            alert(link);
             load_spinner();
             $.ajax({
               url: link,

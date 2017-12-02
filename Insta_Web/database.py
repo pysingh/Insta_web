@@ -60,8 +60,18 @@ def update_unfollowed(acc_username,insta_username):
     db_obj = InstagramUnfollowDB.objects.filter(username=acc_username,instagram_username=insta_username)[0]
     db_obj.unfollow_count += 1
     db_obj.save()
-
     django.db.close_old_connections()
     db_obj = AccountDetails.objects.filter(username=acc_username, instagram_username=insta_username)[0]
     db_obj.unfollow_count += 1
     db_obj.save()
+    print('unfollowed')
+
+
+def check_paused_message(acc_username,insta_username,link_id):
+    #try:
+        django.db.close_old_connections()
+        db_obj = MessageFunctionalityDB.objects.filter(username=acc_username,instagram_username=insta_username,message_id=link_id)[0]
+        pause_message = True if 'True' in db_obj.message_pause else False
+        return pause_message
+    #except:
+    #    return True

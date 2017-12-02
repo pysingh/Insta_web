@@ -212,7 +212,7 @@ def main(target_type='',target_username='',target_tag=None,username='', password
                 bot.write_log("\r%s\n" % (e))
                 new_followers = []
             #print(followers)
-            if len(new_followers) > 0 and not message_pause:
+            if not check_paused_message(account_user, username, link_id):
                 print("Messaging new users")
                 for user in followers:
                     bot.update_output()

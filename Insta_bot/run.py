@@ -223,6 +223,7 @@ def main(target_type='',target_username='',target_tag=None,username='', password
                                 update_message_details(account_user, username,link_id)   ## Database.py
 
         ##Follow Loop
+        print(pause_follow)
         if time.time() > follow_timer and not paused_following(pause_follow,account_user,username,link_id):  ## Database.py
             follow_timer = time.time() + (random.randint(-1 * 60, 1 * 60)) + (3600 / max_follows_per_hour)
             if max_follow_counter < max_follows_per_hour:

@@ -40,6 +40,8 @@ def paused_liking(account_user,username,link_id):
 def paused_following(pause,account_user,username,link_id):
     try:
         db_obj = TargetFunctionalityDB.objects.filter(username=account_user, instagram_username=username,link_id=link_id)[0]
+        print("###########################################################")
+        print(db_obj.pause_follow)
         pause_follow = True if 'True' in db_obj.pause_follow else False
         return pause_follow
     except:

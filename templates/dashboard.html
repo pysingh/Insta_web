@@ -345,7 +345,7 @@ input.cmn-toggle-round-flat:checked + label:after
                           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="width: 200px;height: 45px;">Add Target</button>
                           </div>
                           <div class="col-md-6" align="right" style="font-size: 18px;">
-                              <input type="checkbox" id="unfollow" name="unfollow" onclick="start_unfollow_function('{{ user.username }}')" {% if unfollow == True %}checked{% else %}{% endif %}><strong>Unfollow</strong>
+                              <input type="checkbox" id="unfollow" name="unfollow" onclick="start_unfollow_function('{{ user.username }}')" {% if unfollow == 'True' %}checked{% else %}{% endif %}><strong>Unfollow</strong>
                           </div>
                           <br><br><br>
                            <!-- Modal -->

@@ -169,7 +169,6 @@ def main(target_type='',target_username='',target_tag=None,username='', password
                 if amount > max_follows_per_hour - max_follow_counter:
                     amount = max_follows_per_hour - max_follow_counter
                 if len(bot_follows) > 0:
-                    print()
                     try:
                         followed = bot.getFollowed()
                     except:

@@ -52,13 +52,13 @@ def main(target_type='',target_username='',target_tag=None,username='', password
     #except:
         #with open("usernames.txt", "w") as name_file:
          #   print("Created file: usernames.txt\n")
-    try:
-        with open("blacklist.txt", "r") as blacklist_file:
-            for line in blacklist_file:
-                blacklist.append(line.strip())
-    except:
-        with open("blacklist.txt", "w") as blacklist_file:
-            print("Created file: blacklist.txt\n")
+    #try:
+    #    with open("blacklist.txt", "r") as blacklist_file:
+    #        for line in blacklist_file:
+    #            blacklist.append(line.strip())
+    #except:
+    #    with open("blacklist.txt", "w") as blacklist_file:
+    #        print("Created file: blacklist.txt\n")
     #try:
     #    with open("tags.txt", "r") as tag_file:
     #        for line in tag_file:
@@ -68,21 +68,21 @@ def main(target_type='',target_username='',target_tag=None,username='', password
     #    with open("tags.txt", "w") as tag_file:
     #        print("Created file: tags.txt\n")
 
-    try:
-        with open("liked_media.txt", "r") as liked_file:
-            for line in liked_file:
-                liked_media.append(int(line.strip()))
-    except:
-        with open("liked_media.txt", "w") as liked_file:
-            print("Created file: liked_media.txt\n")
+    #try:
+    #    with open("liked_media.txt", "r") as liked_file:
+    #        for line in liked_file:
+    #            liked_media.append(int(line.strip()))
+    #except:
+    #    with open("liked_media.txt", "w") as liked_file:
+    #        print("Created file: liked_media.txt\n")
 
-    try:
-        with open("messaged.txt", "r") as messaged_file:
-            for line in messaged_file:
-                messaged.append(line.strip())
-    except:
-        with open("messaged.txt", "w") as messaged_file:
-            print("Created file: messaged.txt")
+    #try:
+    #    with open("messaged.txt", "r") as messaged_file:
+    #        for line in messaged_file:
+    #            messaged.append(line.strip())
+    #except:
+    #    with open("messaged.txt", "w") as messaged_file:
+    #        print("Created file: messaged.txt")
 
     # Initialize and Login to Bot
     bot = Apollo(login=username, password=password)

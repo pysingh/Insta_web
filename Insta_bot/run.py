@@ -162,7 +162,7 @@ def main(target_type='',target_username='',target_tag=None,username='', password
             print("Cleanup Working")
             if time.time() > cleanup_timer:
                 cleanBotFollows(bot, bot_follows)
-                pickle.dump(bot_follows, open("followed.dump", "wb"))
+                #pickle.dump(bot_follows, open("followed.dump", "wb"))
                 amount = 15
                 count = 0
                 cleanup_timer = get_timer(900)
@@ -178,13 +178,13 @@ def main(target_type='',target_username='',target_tag=None,username='', password
                     for i in range(0, amount):
                         if cleanup_protocol(bot, bot_follows, blacklist):
                             max_follow_counter += 1
-                    pickle.dump(bot_follows, open("followed.dump", "wb"))
+                    #pickle.dump(bot_follows, open("followed.dump", "wb"))
                 else:
                     unfollow_list = [user for user in followed if user not in followers]
                     for i in range(0, amount):
                         if cleanup_protocol(bot, unfollow_list, blacklist):
                             max_follow_counter += 1
-                pickle.dump(bot_follows, open("followed.dump", "wb"))
+                #pickle.dump(bot_follows, open("followed.dump", "wb"))
 
 
         # db_obj = TargetFunctionalityDB.objects.filter(username=account_user, instagram_username=username,link_id=link_id)[0]
@@ -231,7 +231,7 @@ def main(target_type='',target_username='',target_tag=None,username='', password
                 if follow_protocol(bot, followed, likers, blacklist, bot_follows):
                     update_follow_details(account_user,username)
                     max_follow_counter += 1
-                    pickle.dump(bot_follows, open("followed.dump", "wb"))
+                    #pickle.dump(bot_follows, open("followed.dump", "wb"))
                     print("Bot Follows: " + str(len(bot_follows)))
                     print("Max Follows: " + str(max_follows))
 

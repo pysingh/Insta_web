@@ -163,12 +163,13 @@ def main(target_type='',target_username='',target_tag=None,username='', password
             if time.time() > cleanup_timer:
                 cleanBotFollows(bot, bot_follows)
                 #pickle.dump(bot_follows, open("followed.dump", "wb"))
-                amount = 15
+                amount = 100
                 count = 0
                 cleanup_timer = get_timer(900)
                 if amount > max_follows_per_hour - max_follow_counter:
                     amount = max_follows_per_hour - max_follow_counter
                 if len(bot_follows) > 0:
+                    print()
                     try:
                         followed = bot.getFollowed()
                     except:

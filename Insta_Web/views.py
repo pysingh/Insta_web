@@ -455,7 +455,7 @@ class Unfollow(View):
             django.db.close_old_connections()
             db_obj = InstagramAccounts.objects.filter(username=request.user, instagram_username=insta_user)[0]
 
-            p = Process(target=main, kwargs={'username': db_obj.instagram_username,
+            p = Process(target=main, kwargs={'username': db_obj.instagram_username,'account_user':db_obj.username,
                                              'password': db_obj.instagram_password,'cleanup':True})
             p.start()
 

@@ -197,7 +197,7 @@ class Dashboard(View):
             print(i['username'])
             print(i['status'])
 
-        return render(request,'dashboard.html')#, {'items':items,'user':user, 'status':acc.instagram_account_status})
+        return render(request,'dashboard.html', {'items':items,'user':user, 'status':acc.instagram_account_status})
 
 
 class InstagramFunctions(View):

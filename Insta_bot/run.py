@@ -242,7 +242,7 @@ def main(target_type='',target_username='',target_tag=None,username='', password
                             if unfollow_protocol(bot, bot_follows, blacklist):
                                 max_follow_counter += 1
 
-                        pickle.dump(bot_follows, open("followed.dump", "wb"))
+                        #pickle.dump(bot_follows, open("followed.dump", "wb"))
 
 
         if time.time() > like_timer and not paused_liking(account_user,username,link_id):
@@ -347,8 +347,8 @@ def like_protocol(bot, liked_media, users):
         try:
             if bot.like(media):
                 bot.update_output()
-                with open("liked_media.txt", "a") as liked_file:
-                    liked_file.write(str(media) + '\n')
+                #with open("liked_media.txt", "a") as liked_file:
+                #    liked_file.write(str(media) + '\n')
                 liked_media.append(media)
                 return True
         except Exception as e:
@@ -365,8 +365,8 @@ def sendMessage(bot, messaged, user, message, link=False):
     print("Message is: " + message_string)
     if bot.messageUser(user, message_string, link):
         messaged.append(user[0])
-        with open("messaged.txt", "a") as messaged_file:
-            messaged_file.write(user[0] + '\n')
+        #with open("messaged.txt", "a") as messaged_file:
+        #    messaged_file.write(user[0] + '\n')
         return True
     return False
 
@@ -455,17 +455,17 @@ def getMenu():
 def finish(bot):
     bot.write_log("Attempting to logout...")
     string = bot.logout()
-    try:
-        with open("log.txt", "a") as log_file:
-            log_file.write(string)
-    except:
-        with open()("log.txt", "w") as log_file:
-            log_file.write(string)
+    #try:
+        #with open("log.txt", "a") as log_file:
+    #        log_file.write(string)
+    #except:
+    #    with open()("log.txt", "w") as log_file:
+    #        log_file.write(string)
 
-    try:
-        pickle.dump(day_timer, open("timers.dump", "wb"))
-    except:
-        pass
+    #try:
+     #   pickle.dump(day_timer, open("timers.dump", "wb"))
+    #except:
+    #    pass
 
 
 

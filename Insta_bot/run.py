@@ -176,14 +176,20 @@ def main(target_type='',target_username='',target_tag=None,username='', password
                     if len(bot_follows) < amount:
                         amount = len(bot_follows)
                     for i in range(0, amount):
+                        print(i)
                         if cleanup_protocol(bot, bot_follows, blacklist):
+                            print('Unfollowed')
                             max_follow_counter += 1
+                            update_unfollowed(account_user,username)
                     #pickle.dump(bot_follows, open("followed.dump", "wb"))
                 else:
                     unfollow_list = [user for user in followed if user not in followers]
                     for i in range(0, amount):
+                        print(i)
                         if cleanup_protocol(bot, unfollow_list, blacklist):
+                            print('unfollowed')
                             max_follow_counter += 1
+                            update_unfollowed(account_user,username)
                 #pickle.dump(bot_follows, open("followed.dump", "wb"))
 
 

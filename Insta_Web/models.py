@@ -44,8 +44,9 @@ class AccountDetails(models.Model):
 class InstagramUnfollowDB(models.Model):
     username = models.CharField(max_length=128)
     instagram_username = models.CharField(max_length=128)
-    cleanup_pause = models.CharField(max_length=20)
+    cleanup = models.CharField(max_length=20)
     unfollow_count = models.IntegerField(default=0)
+    pid = models.CharField(default='None',max_length=30)
 
 
 '''

@@ -161,6 +161,9 @@ class Dashboard(View):
                     django.db.close_old_connections()
                     TargetFunctionalityDB.objects.filter(username=i.username,instagram_username=i.instagram_username,
                                                            pid=i.pid,link_id=i.link_id).update(followers_usernameids=follows,following_mediaids=following)
+
+                    django.db.close_old_connections()
+                    cleanup = (InstagramUnfollowDB.objects.filter(username=request.user,instagram_username=acc.instagram_username)[0]).cleanup
                     items.append({
                         'username':i.username,
                         'instagram_username':i.instagram_username,
@@ -174,6 +177,7 @@ class Dashboard(View):
                         'link_id': i.link_id,
                         'status': i.status,
                         'pause_like': i.pause_like,
+                        'unfollow': cleanup
                     })
 
                 elif i.target == 'tag':
@@ -452,17 +456,18 @@ class Unfollow(View):
             db_obj = InstagramAccounts.objects.filter(username=request.user, instagram_username=insta_user)[0]
 
             p = Process(target=main, kwargs={'username': db_obj.instagram_username,
-                                             'password': db_obj.instagram_password,'cleanup':False})
+                                             'password': db_obj.instagram_password,'cleanup':True})
             p.start()
 
             django.db.close_old_connections()
-            InstagramUnfollowDB(username=request.user,instagram_username=insta_user,cleanup_pause=False,pid=p.pid).save()
-
+            InstagramUnfollowDB(username=request.user,instagram_username=insta_user,cleanup=True,pid=p.pid).save()
+            return JsonResponse({'res':'unfollowing'})
         elif request.GET['checked'] == 'False':
             print('Unchecked')
             db_obj = InstagramUnfollowDB(username=request.user,instagram_username=insta_user)
             os.system('kill -9 ' + db_obj.pid)  ####   PID OF PROCESS, FOR DELETION OF DATA
             db_obj.delete()
+            return JsonResponse({'res':'unfollow stopped'})
 
 
 '''

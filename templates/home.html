@@ -149,7 +149,6 @@
                   contentType: "application/json;charset=utf-8",
                   dataType: "json",
                   success: function(data) {
-                      alert(data.res);
                       if(data.res == 'Account Successfully Added!'){
                           document.getElementById("modal-body").innerHTML = '<span style="font-size:20px;color:royalblue;">'+data.res +'<span>';
                           setTimeout(function () {

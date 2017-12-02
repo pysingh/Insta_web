@@ -36,7 +36,7 @@ class MessageFunctionalityDB(models.Model):
 class AccountDetails(models.Model):
     username = models.CharField(max_length=128)
     instagram_username = models.CharField(max_length=128)
-    pid = models.CharField(default=None, max_length=128)
+    pid = models.CharField(default=0, max_length=128)
     following = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
     messages_sent = models.IntegerField(default=0)

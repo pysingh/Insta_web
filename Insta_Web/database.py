@@ -63,5 +63,5 @@ def update_unfollowed(acc_username,insta_username):
 
     django.db.close_old_connections()
     db_obj = AccountDetails.objects.filter(username=acc_username, instagram_username=insta_username)[0]
-    db_obj.following += 1
+    db_obj.unfollow_count += 1
     db_obj.save()

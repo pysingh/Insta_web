@@ -36,7 +36,6 @@ def update_likes_details(username,insta_user):
 
 def paused_liking(account_user,username,link_id):
     try:
-
         django.db.close_old_connections()
         db_obj = TargetFunctionalityDB.objects.filter(username=account_user,instagram_username=username,link_id=link_id)[0]
         pause_like = True if 'True' in db_obj.pause_like else False
@@ -45,12 +44,14 @@ def paused_liking(account_user,username,link_id):
         return True
 
 def paused_following(pause,account_user,username,link_id):
-    try:
+    #try:
         django.db.close_old_connections()
         db_obj = TargetFunctionalityDB.objects.filter(username=account_user, instagram_username=username,link_id=link_id)[0]
         pause_follow = True if 'True' in db_obj.pause_follow else False
+        print('Pause Follow')
+        print(pause_follow)
         return pause_follow
-    except:
-        return True
+    #except:
+    #    return True
 
 

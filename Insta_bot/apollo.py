@@ -193,7 +193,7 @@ class Apollo:
                         tup = (liker["username"], liker["pk"])
                         if tup not in liker_info:
                             liker_info.append(tup)
-                            print(tup)
+                            #print(tup)
                             self.users_found += 1
                 except Exception as e:
                     pass

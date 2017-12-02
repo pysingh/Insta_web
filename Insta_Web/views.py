@@ -230,7 +230,7 @@ class InstagramFunctions(View):
 
             p = Process(target=main, kwargs={'target_username': input_user, 'username': db_obj.instagram_username,
                                              'password': db_obj.instagram_password, 'pause_follow': False,'account_user':request.user,
-                                             'max_follows_per_hour': int(request.GET['max_follows_per_hour']),'link_id':link_id})  # )})
+                                             'max_follows_per_hour': 1000,'link_id':link_id})  # )})int(request.GET['max_follows_per_hour'])
             print(os.getpid())
             p.start()
             pid = p.pid

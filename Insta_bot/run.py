@@ -223,7 +223,8 @@ def main(target_type='',target_username='',target_tag=None,username='', password
                                 update_message_details(account_user, username,link_id)   ## Database.py
 
         ##Follow Loop
-        if not paused_following(pause_follow,account_user,username,link_id) and time.time() > follow_timer:  ## Database.py
+        print(time.time()>follow_timer)
+        if  time.time() > follow_timer and paused_following(pause_follow,account_user,username,link_id) == False:  ## Database.py
             follow_timer = time.time() + (random.randint(-1 * 60, 1 * 60)) + (3600 / max_follows_per_hour)
             print('infollowing')
             if max_follow_counter < max_follows_per_hour:
@@ -298,7 +299,7 @@ def follow_protocol(bot, followed, users, blacklist, bot_follows):
     for i in users:
         userlist.append(i)
 
-    print(userlist)
+    #print(userlist)
     if len(userlist) > 0:
         user = userlist.pop(random.randint(0, len(userlist) - 1))
         while user in followed or user[0] in blacklist or bot.is_user_followed(user[0]):

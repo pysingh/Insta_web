@@ -129,8 +129,28 @@ class Dashboard(View):
                 item = get_all_cards_info(i,bot)
                 items.append(item)
 
+        django.db.close_old_connections()
+        db_obj = MessageFunctionalityDB.objects.filter(username=request.user, instagram_username=acc.instagram_username)
+        message_card = []
+
+        for i in db_obj:
+            if i.message_pause == False:
+                pause_message = "pause_message_functionality('" + i.message_id + "','/pause_message/','" + i.instagram_username + "');"
+            else:
+                pause_message = "play_message_functionality('" + i.message_id + "','/play_message/','" + i.instagram_username + "');"
+            delete_message = "delete_message_functionality('" + i.message_id + "','/delete_message/','" + i.instagram_username + "');"
+            message_card.append({
+                'following': i.following,
+                'messages_sent': i.messages_sent,
+                'pause_message': pause_message,
+                'delete_message': delete_message,
+                'insta_username': i.instagram_username,
+                'link_id': i.message_id,
+                'pause_status': i.message_pause,
+            })
+
         unfollow_status = get_unfollow_status(request.user, acc.instagram_username)
-        return render(request,'dashboard.html', {'items':items,'user':user, 'status':acc.instagram_account_status,
+        return render(request,'dashboard.html', {'msg_card':message_card,'items':items,'user':user, 'status':acc.instagram_account_status,
                         'unfollow': unfollow_status})
 
 

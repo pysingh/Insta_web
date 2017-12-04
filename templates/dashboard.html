@@ -600,7 +600,37 @@ input.cmn-toggle-round-flat:checked + label:after
                       </div>
                       <br><br>
                       <div id="message_cards_panel" align="center" class="container row">
-                              <!--<div class="col-md-4">
+                          {% for i in msg_card %}
+                              <div class="col-md-4">
+                                  <div class="card" style="width: 13rem; margin-bottom: 30px;">
+                                      <div style="background-color: lightblue; position: relative;padding:10px;text-align: center;">
+                                          <span class="card-title" style="color: darkblue"><b>Message Card</b></span>
+                                      </div>
+                                      <div style="padding-top: 10px;">
+                                          <div class="row" style="padding: 0px 10px 10px 10px;">
+                                              <span class="col-md-5 font">New Followers</span>
+                                              <span class="col-md-2"></span>
+                                              <span class="col-md-5 font" >{{ i.following }}</span><br>
+                                          </div>
+                                          <div class="row" style="padding: 0px 10px 0px 10px;">
+                                              <span class="col-md-5 font">Messages Sent</span>
+                                              <span class="col-md-2"></span>
+                                              <span class="col-md-5 font">{{ i.messages_sent }}</span>
+                                          </div>
+                                      </div>
+                                      <div class="" align="right" style="padding: 0px 10px 10px 10px;">
+                                          <hr>
+                                          <a class="btn btn-primary fa-size tooltip_pause" type="button" id="{{ i.link_id }}" onclick="{{ i.pause_message }}">
+                                              {% if i.pause_status == False %}<i class="fa fa-pause" style=""></i>{% else %}<i class="fa fa-play" style=""></i>{% endif %}
+                                          </a>
+                                          <a class="btn btn-warning fa-size tooltip_delete" type="button" id="{{ i.link_id }}" onclick="{{ i.delete_message }}">
+                                              <i class="fa fa-trash" aria-hidden="true"></i>
+                                          </a>
+                                      </div>
+                                  </div>
+                              </div>
+                          {% endfor %}
+                          <!--<div class="col-md-4">
                                             <div class="card" style="width: 13rem; margin-bottom: 30px;">
                                                 <div style="background-color: lightblue; position: relative;padding:10px;text-align: center;">
                                                     <span class="card-title" style="color: darkblue"><b>Message Card</b></span>

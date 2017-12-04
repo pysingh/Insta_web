@@ -507,7 +507,7 @@ input.cmn-toggle-round-flat:checked + label:after
                                                         <span class="col-md-5" style="padding-top: 2px;">
                                                             <div class="checkbox checkbox-slider--b-flat">
                                                                 <label>
-                                                                    <input type="checkbox" id="likes_check" {% if i.pause_like == True %}{% else %} checked {% endif %}><span></span>
+                                                                    <input type="checkbox" id="likes_check" onclick="{{ i.play_pause_like }}" {% if i.pause_like == True %}{% else %} checked {% endif %}><span></span>
                                                                 </label>
                                                             </div>
                                                         </span><br>

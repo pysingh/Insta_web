@@ -14,10 +14,10 @@ def get_all_cards_info(i,bot):
             link = "start_target_functionality('" + i.link_id + "','/play/','" + i.instagram_username + "','" + i.target_value + "');"
 
         if i.pause_like == False:
-            link = "pause_likes_functionality('likes_check_" + i.link_id + "','" + i.link_id + "','/like_pause/','" + i.instagram_username + "','" + i.target_value + "');"
+            pause_like = "pause_likes_functionality('likes_check_" + i.link_id + "','" + i.link_id + "','/like_pause/','" + i.instagram_username + "','" + i.target_value + "');"
 
         else:
-            link = "start_likes_functionality('likes_check_" + i.link_id + "','" + i.link_id + "','/like_play/','" + i.instagram_username + "','" + i.target_value + "');"
+            pause_like = "start_likes_functionality('likes_check_" + i.link_id + "','" + i.link_id + "','/like_play/','" + i.instagram_username + "','" + i.target_value + "');"
 
         delete_link = "delete_target_functionality('" + i.link_id + "','/delete/','" + i.instagram_username + "','" + i.pid + "');"
         follows = info['followed_by']['count']
@@ -37,6 +37,7 @@ def get_all_cards_info(i,bot):
             'delete_link': delete_link,
             'link_id': i.link_id,
             'status': i.status,
+            'play_pause_like':pause_like,
             'pause_like': i.pause_like,
         }
 

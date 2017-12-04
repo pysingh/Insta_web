@@ -13,6 +13,7 @@ import os,json
 from .extra_functions import *
 from time import sleep
 import django.db
+from .database import *
 
 class HomePage(View):
     def get(self, request):
@@ -20,8 +21,7 @@ class HomePage(View):
             return render(request, 'landing.html')
         else:
             print(request.user)
-            django.db.close_old_connections()
-            db_obj = InstagramAccounts.objects.filter(username=request.user)
+            db_obj = get_all_instagram_accounts(request)
             for i in db_obj.all():
                 print(i.username + " " + i.instagram_username)
             return render(request, 'home.html', {'accounts':db_obj.all()})
@@ -41,8 +41,7 @@ class Home(View):
         print(request.user)
         print(username,password)
 
-        django.db.close_old_connections()
-        db_obj = InstagramAccounts.objects.filter(username=request.user,instagram_username=username)
+        db_obj = get_insta_account(request.user,username)
         if db_obj.count() == 0:
             bot = Apollo(login=username, password=password)
             if not bot.login_status:
@@ -52,11 +51,7 @@ class Home(View):
                 user = bot.get_user_info(username)
                 print(user['profile_pic_url_hd'])
                 bot.logout()
-                django.db.close_old_connections()
-                a = InstagramAccounts(username=request.user,instagram_username=username,instagram_password=password,
-                                      instagram_image=user['profile_pic_url_hd'], instagram_account_status='active', paid_date='09-11-2017')
-                a.save()
-                AccountDetails(username=request.user,instagram_username=username).save()
+                save_user_details_in_database(request.user,username, password,user['profile_pic_url_hd'])
                 return JsonResponse({'res':'Account Successfully Added!'})
 
         return JsonResponse({'res':'Account Already Present. Cannot Add again!'})
@@ -122,96 +117,21 @@ class Dashboard(View):
     def get(self, request, username):
         items = []
 
-        django.db.close_old_connections()
-        acc = InstagramAccounts.objects.filter(username=request.user, instagram_username=username)[0]
-        db_obj = TargetFunctionalityDB.objects.filter(username=request.user,
-                                                        instagram_username=acc.instagram_username)
+        acc = get_insta_account(request.user,username)
+        db_obj = get_target_functionalities(request.user,acc.instagram_username)
+
         bot = Apollo(login=acc.instagram_username, password=acc.instagram_password)
         user = bot.get_user_info(username)
-
         print("Nishaf")
         print(db_obj.count())
         if db_obj.count() > 0:
             for i in db_obj:
-                if i.target == 'username':
-                    print(user)
-                    print(i.target_value)
-                    info = bot.get_user_info(i.target_value)
-                    bot.logout()
+                item = get_all_cards_info(i,bot)
+                items.append(item)
 
-                    if i.status == 'active':
-                        #link = "pause_target_functionality('"+ i.link_id + "','/pause/','" +  i.instagram_username + "','" + i.target_value +"');"
-                        link = "pause_target_functionality('"+ i.link_id + "','/pause/','" +  i.instagram_username + "','" + i.target_value +"');"
-
-                    else:
-                        link = "start_target_functionality('"+ i.link_id + "','/play/','" +  i.instagram_username + "','" + i.target_value+"');"
-
-                    if i.pause_like == False:
-                        link = "pause_likes_functionality('likes_check_"+ i.link_id  + "','" + i.link_id + "','/like_pause/','" +  i.instagram_username + "','" + i.target_value+"');"
-
-                    else:
-                        link = "start_likes_functionality('likes_check_"+ i.link_id  + "','" + i.link_id + "','/like_play/','" +  i.instagram_username + "','" + i.target_value+"');"
-
-
-                    delete_link = "delete_target_functionality('"+ i.link_id + "','/delete/','" + i.instagram_username + "','" + i.pid +"');"
-                    follows = info['followed_by']['count']
-                    following = info['follows']['count']
-                    print(follows,following)
-
-                    django.db.close_old_connections()
-                    TargetFunctionalityDB.objects.filter(username=i.username,instagram_username=i.instagram_username,
-                                                           pid=i.pid,link_id=i.link_id).update(followers_usernameids=follows,following_mediaids=following)
-
-                    items.append({
-                        'username':i.username,
-                        'instagram_username':i.instagram_username,
-                        'target_value':i.target_value,
-                        'target': i.target,
-                        'pid': i.pid,
-                        'follow': follows,
-                        'following': following,
-                        'play_pause_link': link,
-                        'delete_link': delete_link,
-                        'link_id': i.link_id,
-                        'status': i.status,
-                        'pause_like': i.pause_like,
-                    })
-
-                elif i.target == 'tag':
-                    print(i.target_value)
-                    if i.status == 'active':
-                        link = "pause_target_functionality('" + i.link_id + "','/pause/','" + i.instagram_username + "','" + i.target_value + "','" + i.pid + "');"
-                    else:
-                        link = "start_target_functionality('" + i.link_id + "','/play/','" + i.instagram_username + "','" + i.target_value + "');"
-
-                    delete_link = "delete_target_functionality('" + i.link_id + "','/delete/','" + i.instagram_username + "','" + i.pid + "');"
-
-
-                    items.append({
-                        'username': i.username,
-                        'instagram_username': i.instagram_username,
-                        'target_value': i.target_value,
-                        'following': i.following_mediaids,
-                        'follow': i.followers_usernameids,
-                        'target': i.target,
-                        'pid': i.pid,
-                        'play_pause_link': link,
-                        'delete_link': delete_link,
-                        'link_id': i.link_id,
-                        'status': i.status
-                    })
-
-        ##Call Following Function.
-        for i in items:
-            print(i['username'])
-            print(i['status'])
-        try:
-            django.db.close_old_connections()
-            cleanup = (InstagramUnfollowDB.objects.filter(username=request.user, instagram_username=acc.instagram_username)[0]).cleanup
-        except:
-            cleanup = False
+        unfollow_status = get_unfollow_status(request.user, acc.instagram_username)
         return render(request,'dashboard.html', {'items':items,'user':user, 'status':acc.instagram_account_status,
-                        'unfollow': cleanup})
+                        'unfollow': unfollow_status})
 
 
 class InstagramFunctions(View):
@@ -242,12 +162,7 @@ class InstagramFunctions(View):
             pid = p.pid
             print(pid)
 
-            django.db.close_old_connections()
-            TargetFunctionalityDB(username=request.user, instagram_username=db_obj.instagram_username,
-                                    pid=pid, target_value=input_user, target='username', status='active',
-                                    link_id=link_id,
-                                    followers_usernameids=follows, following_mediaids=following, pause_follow=False,
-                                    pause_like=True).save()
+            save_target_username_functionality(request.user,db_obj.instagram_username,pid,input_user,link_id,follows,following)
 
             print(follows,following)
             user = {
@@ -277,16 +192,10 @@ class InstagramFunctions(View):
             pid = p.pid
             print(pid)
 
-            django.db.close_old_connections()
-            TargetFunctionalityDB(username=request.user, instagram_username=db_obj.instagram_username,
-                                    pid=pid, target='tag',target_value=input_user, status='active', link_id=link_id,
-                                    pause_like=True,pause_follow=False).save()
-
+            save_target_tag_functionality(request.user,db_obj.instagram_username,pid,input_user,link_id)
             while True:
 
-                django.db.close_old_connections()
-                item = TargetFunctionalityDB.objects.filter(username=request.user, instagram_username=db_obj.instagram_username,
-                                               link_id=link_id,target_value=input_user)[0]
+                item = get_target_tag_functionality(request.user,db_obj.instagram_username,link_id,input_user)
                 if item.following_mediaids == '0' and item.followers_usernameids == '0':
                     print("Empty Field")
                     sleep(10)
@@ -317,51 +226,30 @@ class InstagramFunctions(View):
 
 class PauseLikesFunctionality(View):
     def get(self, request):
-        django.db.close_old_connections()
-        TargetFunctionalityDB.objects.filter(link_id=request.GET['link_id'],
-                                                      username=request.user,
-                                                      instagram_username=request.GET['username']).update(pause_like=True, status='active')
-
+        update_likes_functionality(request.user,request.GET['username'],request.GET['link_id'],True,'paused')
         return JsonResponse({'res': 'not liking', 'url': "/like_play/"})
 
 
 class PlayLikesFunctionality(View):
     def get(self, request):
-        django.db.close_old_connections()
-        TargetFunctionalityDB.objects.filter(link_id=request.GET['link_id'],
-                                                      username=request.user,
-                                                      instagram_username=request.GET['username']).update(pause_like=False, status='active')
-
+        update_likes_functionality(request.user,request.GET['username'],request.GET['link_id'],False,'active')
         return JsonResponse({'res': 'liking', 'url': "/like_pause/"})
 
 class PauseFunctionality(View):
     def get(self, request):
-        django.db.close_old_connections()
-        TargetFunctionalityDB.objects.filter(username=request.user,
-                                                instagram_username=request.GET['username'],
-                                                target_value=request.GET['input_username'],
-                                                link_id=request.GET['link_id']).update(status='pause',pause_follow=True,pause_like=True)
-
-
-
+        update_target_functionality(request.user,request.GET['username'],request.GET['link_id'],True,'pause')
         return JsonResponse({'res':'paused','url': "/play/"})
 
 
 class PlayFunctionality(View):
     def get(self, request):
-        django.db.close_old_connections()
-        TargetFunctionalityDB.objects.filter(link_id=request.GET['link_id'], username=request.user,
-                                               instagram_username=request.GET['username']).update(pause_follow=False,pause_like=True,status='active')
-
+        update_target_functionality(request.user, request.GET['username'], request.GET['link_id'], False, 'active')
         return JsonResponse({'res':'played','url': "/pause/"})
 
 class DeleteFunctionality(View):
     def get(self,request):
-        django.db.close_old_connections()
-        os.system('kill -9 ' + request.GET['pid'])  ####   PID OF PROCESS, FOR DELETION OF DATA
-        db_obj = TargetFunctionalityDB.objects.filter(username=request.user,instagram_username=request.GET['username'],
-                                               link_id=request.GET['link_id'], pid=request.GET['pid'])[0]
-        db_obj.delete()
+        delete_target_functionality(request.user,request.GET['username'],
+                                               request.GET['link_id'],request.GET['pid'])
         return JsonResponse({'json_response':'Deleted'})
 
 

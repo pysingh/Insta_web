@@ -30,6 +30,7 @@ class MessageFunctionalityDB(models.Model):
     messages_sent = models.IntegerField(default=0)
     message_pause = models.CharField(default='True', max_length=20)
     pid = models.CharField(default=None,max_length=128)
+    following = models.IntegerField(default=0)
     status = models.CharField(default='pause', max_length=20)
 
 

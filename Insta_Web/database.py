@@ -7,7 +7,7 @@ def get_all_instagram_accounts(request):
 
 def get_insta_account(acc_username,insta_username):
     django.db.close_old_connections()
-    return InstagramAccounts.objects.filter(username=acc_username, instagram_username=insta_username)
+    return InstagramAccounts.objects.filter(username=acc_username, instagram_username=insta_username)[0]
 
 def save_user_details_in_database(acc_username,insta_username,insta_password,image):
     django.db.close_old_connections()
